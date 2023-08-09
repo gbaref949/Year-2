@@ -8000,30 +8000,62 @@ const people = [
     pet: "rabbit",
   },
 ];
-// Array Method Every
+// ARRAY METHOD-EVERY:
+
 // the every method returns true if all elements in the array pass the test implemented by the provided function.
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-console.log(arr.every(item => item % 2 === 0));//false
+// console.log(arr.every(item => item % 2 === 0));//false
 
-//but
+// //but
 
-const ar = [2, 4, 6, 8, 10];
+// const ar = [2, 4, 6, 8, 10];
 
-console.log(ar.every(item => item % 2 === 0));//true
+// console.log(ar.every(item => item % 2 === 0));//true
 
-console.log(
-    people.every((person)=>{
-        const {age} = person;
-        return age >= 10 || age <= 25;
-    })
-)//true
-//True or False age 15-30
+// console.log(
+//     people.every((person)=>{
+//         const {age} = person;
+//         return age >= 10 || age <= 25;
+//     })
+// )//true
+// //True or False age 15-30
 
-console.log(
-    people.every((person)=>{
-        const {age} = person;
-        return age >= 15 || age <= 30;
-    })
-)//true
+// console.log(
+//     people.every((person)=>{
+//         const {age} = person;
+//         return age >= 15 && age <= 30;
+//     })
+// )//true
+// //like a map (every) only goes through once
+
+// console.log(
+//     people.every((person)=>{
+//         const {age} = person;
+//         return age >= 20 && age <= 35;
+//     })
+// )//Is this logically different from the first one; no 
+
+// ARRAY METHOD-FILTER:
+
+// the filter method returns a new array with all elements that pass the test implemented by the provided function
+
+// let Kaines = people.filter((person)=>{
+//     const {name} = person;
+//     return name.split(" ")[0] === "Kaine";
+// })
+// console.log(Kaines);
+
+// let pol = people.filter((person)=>{
+//     const {age, shirtColor} = person;
+//     return age == 25 && shirtColor === "red";
+// })
+// console.log(pol);
+
+//first last name warren above age of 20 below age 28
+let pol = people.filter((person)=>{
+    const {age, name} = person;
+    return (age >= 20 && age <= 28) && name.split(" ")[0,1] === "Warren";
+})
+console.log(pol);
