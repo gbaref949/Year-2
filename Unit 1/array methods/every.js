@@ -8000,9 +8000,9 @@ const people = [
     pet: "rabbit",
   },
 ];
-// ARRAY METHOD-EVERY:
 
-// the every method returns true if all elements in the array pass the test implemented by the provided function.
+// //ARRAY METHOD-EVERY:
+// //the every method returns true if all elements in the array pass the test implemented by the provided function.
 
 // const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -8037,9 +8037,9 @@ const people = [
 //     })
 // )//Is this logically different from the first one; no 
 
-// ARRAY METHOD-FILTER:
 
-// the filter method returns a new array with all elements that pass the test implemented by the provided function
+// //ARRAY METHOD-FILTER:
+// //the filter method returns a new array with all elements that pass the test implemented by the provided function
 
 // let Kaines = people.filter((person)=>{
 //     const {name} = person;
@@ -8054,8 +8054,77 @@ const people = [
 // console.log(pol);
 
 //first last name warren above age of 20 below age 28
-let pol = people.filter((person)=>{
-    const {age, name} = person;
-    return (age >= 20 && age <= 28) && name.split(" ")[0,1] === "Warren";
-})
-console.log(pol);
+// let pol = people.filter((person)=>{
+//     const {age, name} = person;
+//     return (age >= 20 && age <= 28) && name.split(" ")[0,1] === "Warren";
+// })
+// console.log(pol);
+
+// let pl = people.filter((person)=>{
+//     const {age, drink} = person;
+//     return (age <= 20) && drink === "Juice";
+// })
+// console.log(pl);
+
+
+// //ARRAY METHOD-FIND:
+// //the find method returns the index of the first element that passes the test implemented by the provided function.
+
+// const numbers = [-1, -2, 20, 40, 50]
+// console.log(
+//   numbers.find(item => item > 5));
+// works like every but returns the index of the first element that passes the test implemented by the provided function.
+
+
+// //ARRAY METHOD-ForEach:
+// //the forEach method executes a provided function once for each element in the array.
+
+// let neededDrinks = {}
+
+// people.forEach((person)=>{
+//   const {drink} = person;
+//   neededDrinks[drink] ? (neededDrinks[drink] += 1) : (neededDrinks[drink] = 1)
+// })
+// console.log(neededDrinks);
+
+// //ARRAY METHOD-Map:
+// //the map method returns a new array with the results of calling the provided function on every element in the array.
+
+// let newArray = people.map((person)=>{
+//   const {age,drink} = person;
+//   const alchDrinks = ["Beer", "Martini", "Margarita", "Wine", "Daiquari"]
+//   if(alchDrinks.includes(drink)){
+//     return age < 21
+//     ?{...person, ejected: "true"}
+//     :{...person, ejected: "false"}
+//   } 
+//   return {...person, ejected: "false"} //works like an else
+// })
+
+// console.log(newArray);
+
+// let drink = people.filter((person)=>{
+//     const {drink} = person;
+//     return (drink === "Beer" || drink === "Martini" || drink === "Marargarita" || drink === "Wine" || drink === "Daiquari");
+// })
+// console.log(drink);
+
+// //ARRAY METHOD-Reduce:
+// //the reduce method executes a provided function once for each element in the array, and returns the accumulated result.
+
+// let avg =
+//     people.reduce((tot, nxt)=>{
+//         const {age} = nxt;
+//         return tot + age;
+//     },0) / 1000
+//     console.log(avg);
+
+// //ARRAY METHOD-Some: 
+// //the some method returns true if at least one element of the array passes the test implemented by the provided function.
+
+console.log(
+  people.some((person)=>{
+      const {pet} = person;
+      return pet === "none"
+    })
+)
