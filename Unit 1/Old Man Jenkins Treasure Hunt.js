@@ -822,25 +822,86 @@ const input = [
   "FBFBFBFLRR",
   "BFBFFFFRLL",
 ];
-let input1 = input.split([7])
 
-Total = 1028;
+let input1 = input.split([7]).map(input1)
+// Print input array
+console.log('Input:', input);
 
-F = 0;//front of the yard
-B = 0;//backyard
-R = 0;//right side
-L = 0;//left side
+// Find min and max rows
+const rows = [];
+const cols = []; 
 
-for (let i = 0; i < input.length; i++) {
-    if (input[i] === "F") {
-            F++;
-        } else if (input[i] === "B") {
-            B++;
-        } else if (input[i] === "R") {
-            R++;
-        } else if (input[i] === "L") {
-            L++;
-        }
+input1.forEach(str => {
+  // Parse row/col
+  const row = parseRowCol(str)[0];  
+  const col = parseRowCol(str)[1];
+
+  rows.push(row);
+  cols.push(col);
+});
+
+console.log('Rows:', rows);
+console.log('Cols:', cols);
+
+const minRow = Math.min(...rows);
+const maxRow = Math.max(...rows);
+
+console.log('Min row:', minRow); 
+console.log('Max row:', maxRow);
+
+// Find missing row
+const missingRow = findMissingRow(minRow, maxRow, rows);
+console.log('Missing row:', missingRow);
+
+// Generate code
+const code = generateCode(44, 5);
+console.log('Code:', code);
+
+// Calculate lock combo
+const combo = calculateLockCombo(rows, cols);
+console.log('Combo:', combo);
+
+// Print grid
+console.log(printGrid(rows, cols));
+
+// Helper functions
+function parseRowCol(str) {
+  const rowBits = str.slice(0, 4).join('');
+  const colBits = str.slice(4, 7).join(''); 
+
+  return [parseInt(rowBits, 2), parseInt(colBits, 2)];
 }
 
-console.log((input1.length)/2);
+function findMissingRow(min, max, rows) {
+  let values = [];
+  for (let i = min; i <= max; i++) {
+    values.push(i);
+  }
+
+  return values.filter(val => !rows.includes(val))[0];
+}
+
+function generateCode(row, col) {
+  let rowBits = row.toString(2).padStart(4, '0');
+  let colBits = col.toString(2).padStart(3, '0');
+  return rowBits + colBits;
+}
+
+function calculateLockCombo(rows, cols) {
+  const rowTotal = rows.reduce((a, b) => a + b, 0);
+  const colTotal = cols.reduce((a, b) => a + b, 0);
+  
+  return (rowTotal * colTotal).toString().slice(0,6); 
+}
+
+function printGrid(rows, cols) {
+  const grid = Array(64).fill('.').join('').split('');
+
+  rows.forEach((row, i) => {
+    const col = cols[i];
+    const index = row * 8 + col;
+    grid[index] = '#';
+  });
+
+  return grid.join('').match(/.{8}/g).join('\n');
+}
