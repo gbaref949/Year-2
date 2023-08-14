@@ -1,0 +1,15 @@
+@import "./util/functions", "./util/variable";
+
+.container {
+    margin: 0 auto;
+    max-width: $max-width;
+    padding: 0 $spacing;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+
+    @include respond-to($fixed-width) {
+        max-width: $fixed-width;
+    }
+}
