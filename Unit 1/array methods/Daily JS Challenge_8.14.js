@@ -1,7 +1,14 @@
 /*
-Convert the following if statements into a ternary statement.:
+Convert the following if statements into a ternary statement.
 
+use these links: 
+    https://www.w3schools.com/js/js_operators.asp
+    
+    https://www.freecodecamp.org/news/the-ternary-operator-in-javascript/
 
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator
+
+    https://www.programiz.com/javascript/ternary-operator
 */
 
 //if statements
