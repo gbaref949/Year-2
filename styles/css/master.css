@@ -1,1 +1,13 @@
-/*# sourceMappingURL=master.css.map */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.bac {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../barb.png");
+  height: 75vh;
+  width: 75vw;
+}/*# sourceMappingURL=master.css.map */

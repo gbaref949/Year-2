@@ -1,0 +1,41 @@
+//this is a shortcut to center any block element
+
+@mixin center-align{
+    margin: {
+        left: auto;
+        right: auto;
+    }
+}
+
+//div{
+//     @include center-auto;
+// }
+
+//this is a simple way to 
+
+@mixin box($width, $height:$width){
+    width: $width;
+    height: $height;
+}
+
+// div{
+//     @include box(200px);
+// }
+
+// div{
+//     @include box(200px, 100px);
+// }
+
+@mixin cover-background ($img) {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: url($img);
+}
+
+// div{
+//     background-image: url('this.jpg');
+//     @include cover-background()
+// }
+
+

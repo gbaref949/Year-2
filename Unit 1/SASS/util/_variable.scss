@@ -1,4 +1,4 @@
-@use './defaultTheme' as *;
+// @use './defaultTheme' as *;
 
 $transition: all 0.3s linear;
 $spacing: 0.1rem;
@@ -13,3 +13,4 @@ $primary-color: #0c0c0c;
 $secondary-color: #007bff;
 $box-shadow: rgb(108, 146, 236) inset;
 $text-shadow: 0 5px 0 2px rgb(159, 112, 112); 
+$img: url(../../../barb.png)

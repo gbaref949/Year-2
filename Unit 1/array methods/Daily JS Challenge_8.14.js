@@ -9,6 +9,10 @@ use these links:
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator
 
     https://www.programiz.com/javascript/ternary-operator
+
+    https://www.javascripttutorial.net/javascript-ternary-operator/
+
+    https://medium.com/@peterlin5301997/ternary-operator-727fc363bd95
 */
 
 //if statements
@@ -21,7 +25,7 @@ use these links:
 // salary *= 1.06;
 
 //ternary statements
-// ?(paygrade == 7) : (paygrade == 6)? (level >= 0 && level <= 8)? {... salary *= 1.05} :{... salary *= 1.04};
+paygrade == 7 ? paygrade == 6 : (level >= 0 && level <= 8) ? {... salary *= 1.05} :{... salary *= 1.04};
 
 //if statements
 // if (value > 0) 
@@ -30,25 +34,26 @@ use these links:
 //  else {++decrease;}
 
 //ternary statements
-// ? (value > 0) : (value == 0)? ++increase : {... ++break_even}? {... ++decrease}
+value > 0 ? value == 0 : ++increase ? ++break_even : ++decrease
 
+//for loop & switch case statements
+// for (i=0; i<sizeof(text); i++)
+//  {
+// switch (text[i]) 
+//      {
+// case 'A':
+// capa++;
+// case 'a':
+// lettera++;
+// default:
+// total++;
+// } 
+//  }
 
-for (i=0; i<sizeof(text); i++)
- {
+//ternary statements
+  i=0; i<sizeof(text); i++ ? (text[i]): "A" ? capa++ : "a" ? lettera++ : total++;
 
-switch (text[i]) 
-     {
-case 'A':
-capa++;
-case 'a':
-lettera++;
-default:
-total++;
-} 
- }
-
-
-
+//switch case statements
 switch (new Date().getDay()) {
   case 0:
     day = "Sunday";
@@ -72,3 +77,5 @@ switch (new Date().getDay()) {
     day = "Saturday";
 }
 
+//ternary statements
+  new Date().getDay() == 0? "Sunday"? day = "Sunday" : "Monday"? day = "Monday" : "Tuesday"? day = "Tuesday" : "Wednesday"? day = "Wednesday" : "Thursday"? day = "Thursday" : "Friday"? day = "Friday" : "Saturday"? day = "Saturday" : "Sunday"? day = "Sunday" : "Monday"? day = "Monday" : "Tuesday"? day = "Tuesday" : "Wednesday"? day = "Wednesday" : "Thursday"? day = "Thursday" : "Friday"? day = "Friday" : "Saturday"? day = "Saturday" : "Sunday"? day = "Sunday" : "Monday"? day = "Monday" : "Tuesday"? day = "Tuesday" : "Wednesday"
