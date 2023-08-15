@@ -1,44 +1,4 @@
-/*
-
-There are 1028 squares worth of yard space, if Jenkins wrote ‘FBFBBFFRLR’
-We can see the 2 steps ‘FBFBBFF’ | ‘RLR’ 
-We can start by ordering the front and back 0 to 127
-F means front yard so you cut the yard in half towards the front and look at 0 to 63
-B means backyard so you cut the yard in half again towards the backyard 32 to 63
-F moves you to 32 to 47
-B moves you to 40 to 47
-B moves you to 44 to 47
-F moves you to 44 to 45
-Lastly F tells you that is in row 44
-Next we can use the RLR to find the column
-R means right half so you move to 4 to 7
-L means left so you move to 4 to 5
-Lastly R tells you the column is 5
-
-To find the grid number we can just multiply the row by 8 and add the column. 
-44 * 8 + 5 = grid 357
-
-That was a lot, let's get to the questions 
-
-Before we can start we need to know where Jenkins stopped. We know he chose randomly but we can find the lowest square and the highest square that Jenkins reached. Find the lowest and the highest squares reached YOU MUST USE THE forEach() method
-
-You start to notic
-e a pattern and maybe the digging wasn’t as random as you thought. We know that every number has to be between the highest and lowest but is EVERY number between them? Using either every(), filter(), or some(). Find the missing value between the highest and the lowest. 
-
-You found the number of the square but now you need to find the location in the yard. Working backwards, create a code like ‘FBFBBFFRLR’ and tell me the row and column
-
-You did it, the treasure was in the missing square, always the last place you look… You take the treasure to a safe room and try to get in but there is a lock. There is a 6 digit combination that you need to enter. For every square dug, add the rows and cols to arrays to store them (if you have row 34 col 3 and row 51 col 0 the arrays will be [34, 51] and [3,0]) then using reduce() find the totals of every col and row. Lastly multiply the totals together and drop the zeros, you should have 6 numbers
-
-Next Level:
-
-Using map() create a visual grid of the yard. Use ‘.’ to show not dug and ‘#’ to show dug. 
-
-Deliverables: 
-
-Please turn in any js files that you used 
-Copy and paste the code into google doc please to make it easier to grade.
-*/
-
+//orginal input
 const input = [
   "FBFFBFFRLL",
   "BFFFFBBRLR",
@@ -823,85 +783,74 @@ const input = [
   "BFBFFFFRLL",
 ];
 
-let input1 = input.split([7]).map(input1)
-// Print input array
-console.log('Input:', input);
+//function to convert a given code into row and column numbers
+function dig(code) {
+  //extract the row and column codes from the input code
+    let rowCode = code.substring(0, 7);
+    let columnCode = code.substring(7);
 
-// Find min and max rows
-const rows = [];
-const cols = []; 
+//use recursion using the 'calculatz' function to calculate the row and column numbers
+    let row = calculatz(rowCode, 'F', 'B', 127);
+    let column = calculatz(columnCode, 'L', 'R', 7);
 
-input1.forEach(str => {
-  // Parse row/col
-  const row = parseRowCol(str)[0];  
-  const col = parseRowCol(str)[1];
-
-  rows.push(row);
-  cols.push(col);
-});
-
-console.log('Rows:', rows);
-console.log('Cols:', cols);
-
-const minRow = Math.min(...rows);
-const maxRow = Math.max(...rows);
-
-console.log('Min row:', minRow); 
-console.log('Max row:', maxRow);
-
-// Find missing row
-const missingRow = findMissingRow(minRow, maxRow, rows);
-console.log('Missing row:', missingRow);
-
-// Generate code
-const code = generateCode(44, 5);
-console.log('Code:', code);
-
-// Calculate lock combo
-const combo = calculateLockCombo(rows, cols);
-console.log('Combo:', combo);
-
-// Print grid
-console.log(printGrid(rows, cols));
-
-// Helper functions
-function parseRowCol(str) {
-  const rowBits = str.slice(0, 4).join('');
-  const colBits = str.slice(4, 7).join(''); 
-
-  return [parseInt(rowBits, 2), parseInt(colBits, 2)];
+  //return the combined row & column numbers
+  return row * 8 + column;
 }
 
-function findMissingRow(min, max, rows) {
-  let values = [];
-  for (let i = min; i <= max; i++) {
-    values.push(i);
+//calculates the position based on a given code
+function calculatz(partCode, lowerPattern, upperPattern, upperPart) {
+  let lower = 0;
+  let upper = upperPart;
+
+    //this for loop calucates the lower and upper values by iterating through each character in the code
+  for (let i of partCode) {
+    if (i === lowerPattern) {
+      upper = Math.floor((lower + upper) / 2);
+    } else {
+      lower = Math.ceil((lower + upper) / 2);
+    }
   }
 
-  return values.filter(val => !rows.includes(val))[0];
+  //returns the calculated lower position
+  return lower;
 }
 
-function generateCode(row, col) {
-  let rowBits = row.toString(2).padStart(4, '0');
-  let colBits = col.toString(2).padStart(3, '0');
-  return rowBits + colBits;
+//// Mapped each dot to it's related coordinates
+let dot = input.map(dig);
+//sorted the orginal coordinates
+let sdot = dot.slice().sort((a, b) => a - b);
+
+let missingdot;
+//finds the missing dot by running through every element in the sdot
+sdot.every((dot, index) => {
+  if (dot !== sdot[0] + index) {
+    missingdot = dot - 1;
+    return false;
+  }
+  return true;
+});
+
+//calcuated the the values prepares it to be console.logged
+let lowestNumber = sdot[0]; // Lowest number
+let letterCode = input[dot.indexOf(sdot[0])]; // Letter code corresponding to the lowest number
+let highestNumber = sdot[sdot.length - 1]; // Highest number
+let totalNumbers = sdot.reduce((acc, num) => acc + num, 0); // Total numbers
+
+//console.logs the values we prepared above
+console.log("Lowest", lowestNumber);
+console.log("Letter Code", letterCode);
+console.log("Highest", highestNumber);
+console.log("Total", totalNumbers);
+console.log("Missing", missingdot);
+
+//NEXT-LEVEL
+// Create a grid representation
+let grid = new Array(128).fill('.').map(() => new Array(8).fill('.'));
+//created a grid using an arrow function and filled it with dots for the unserached parts
+for (let i = 0; i < dot.length; i++) {
+  let row = Math.floor(dot[i] / 8);
+  let col = dot[i] % 8;
+  grid[row][col] = '#';
 }
-
-function calculateLockCombo(rows, cols) {
-  const rowTotal = rows.reduce((a, b) => a + b, 0);
-  const colTotal = cols.reduce((a, b) => a + b, 0);
-  
-  return (rowTotal * colTotal).toString().slice(0,6); 
-}
-
-function printGrid(rows, cols) {
-  const grid = Array(64).fill('.').join('').split('');
-
-  rows.forEach((row, i) => {
-    const col = cols[i];
-    const index = row * 8 + col;
-    grid[index] = '#';
-  });
-
-  return grid.join('').match(/.{8}/g).join('\n');
-}
+//used a for loop to put a # in the searched parts
+console.table(grid);//get the final result

@@ -2,13 +2,9 @@
 Convert the following if statements into a ternary statement.
 
 use these links: 
-    https://www.w3schools.com/js/js_operators.asp
-    
     https://www.freecodecamp.org/news/the-ternary-operator-in-javascript/
 
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator
-
-    https://www.programiz.com/javascript/ternary-operator
 
     https://www.javascripttutorial.net/javascript-ternary-operator/
 
@@ -25,7 +21,7 @@ use these links:
 // salary *= 1.06;
 
 //ternary statements
-paygrade == 7 ? paygrade == 6 : (level >= 0 && level <= 8) ? {... salary *= 1.05} :{... salary *= 1.04};
+paygrade == 7 ? (level >= 0 && level <= 8) ? salary *= 1.05 : salary *= 1.04 : salary *= 1.06;
 
 //if statements
 // if (value > 0) 
@@ -34,7 +30,7 @@ paygrade == 7 ? paygrade == 6 : (level >= 0 && level <= 8) ? {... salary *= 1.05
 //  else {++decrease;}
 
 //ternary statements
-value > 0 ? value == 0 : ++increase ? ++break_even : ++decrease
+value > 0 ? ++increase : value == 0 ? ++break_even : ++decrease;
 
 //for loop & switch case statements
 // for (i=0; i<sizeof(text); i++)
@@ -50,8 +46,13 @@ value > 0 ? value == 0 : ++increase ? ++break_even : ++decrease
 // } 
 //  }
 
+//overall structure of ternary 
+//condition ? true : else if condition ? true : else
+
 //ternary statements
-  i=0; i<sizeof(text); i++ ? (text[i]): "A" ? capa++ : "a" ? lettera++ : total++;
+for (let i = 0; i < text.length; i++) {
+  text[i] === 'A' ? capa++ : text[i] === 'a' ? lettera++ : total++;
+}
 
 //switch case statements
 switch (new Date().getDay()) {
@@ -78,4 +79,11 @@ switch (new Date().getDay()) {
 }
 
 //ternary statements
-  new Date().getDay() == 0? "Sunday"? day = "Sunday" : "Monday"? day = "Monday" : "Tuesday"? day = "Tuesday" : "Wednesday"? day = "Wednesday" : "Thursday"? day = "Thursday" : "Friday"? day = "Friday" : "Saturday"? day = "Saturday" : "Sunday"? day = "Sunday" : "Monday"? day = "Monday" : "Tuesday"? day = "Tuesday" : "Wednesday"? day = "Wednesday" : "Thursday"? day = "Thursday" : "Friday"? day = "Friday" : "Saturday"? day = "Saturday" : "Sunday"? day = "Sunday" : "Monday"? day = "Monday" : "Tuesday"? day = "Tuesday" : "Wednesday"
+let day = 
+  new Date().getDay() === 0 ? "Sunday" :
+  new Date().getDay() === 1 ? "Monday" :
+  new Date().getDay() === 2 ? "Tuesday" :
+  new Date().getDay() === 3 ? "Wednesday" :
+  new Date().getDay() === 4 ? "Thursday" :
+  new Date().getDay() === 5 ? "Friday" :
+  "Saturday";
