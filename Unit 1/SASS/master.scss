@@ -1,2 +1,13 @@
-@import "./util/functions", "./util/variable", "./util/mixins", "./base/index", "./styl";
+@import url("./util/functions"), url(".//util/_mixins.scss"), url("./util/_variable.scss"), url("./base/_index.scss");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.bac {
+    @include cover-background($img);
+    height: 75vh;
+    width: 75vw;
+}
 
