@@ -81,3 +81,82 @@ hr{
     padding: 0;
 }
 
+input, select{
+    vertical-align: middle;
+}
+
+pre{
+    white-space: pre;//css2
+    white-space: pre-wrap;//css.1
+    white-space: pre-line;//css3
+    white-space: break-word;//ie
+}
+
+input[type="radio"]{
+vertical-align: text-bottom;
+}
+input[type="checkbox"]{
+    vertical-align: bottom;
+}
+.ie7 input[type="checkbox"]{
+    vertical-align: baseline;
+}
+.ie6 input{
+    vertical-align: text-bottom;
+}
+
+select,
+input,
+textarea{
+    font-size: 99%;
+}
+small{
+    font-size: 85%;
+}
+strong{
+    font-weight: bold;
+}
+
+//super and sub text
+sub,
+sup{
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+}
+
+sup{
+    top: -0.5em;
+}
+
+sub{
+    bottom: -0.25em;
+}
+
+.clickable,
+    label,
+    input[type="button"],
+    input[type="submit"],
+    input[type="file"],
+button{
+    cursor: pointer;
+}
+
+//fix bottom for IE7 ***Legacy browsers
+button,
+input[type="button"]{
+    width: auto;
+    overflow: hidden;
+}
+
+//fix scalbale imgs for IE7 ***Legacy browsers
+.ie7 img{
+    -ms-interpolation-mode: bicubic;
+}
+
+//fixing container collapse
+.clearfix::after{
+    content: " ";
+    display: block;
+    clear: both;
+}
