@@ -50,25 +50,27 @@ How many passwords are valid according to their policies? */
 const fs = require('fs');
 
 try{
-    const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.16_Input.txt', 'utf-8').split('\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
+    const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.16_Input.txt', 'utf-8').split('\r\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
+    let passwords = 0;
     
-    let passwords = [];
+    let policy = [];
+    let fletter = [];
+    let sletter = [];
+
     //use for loop to check if the password is valid
     for(let i = 0; i < data.length; i++){
-        
+        passwords = { ...passwords, [data[i]]: data[i].includes('a')? 1 : 3, [data[i] + 1]: data[i].includes(' b')? 1 : 3, [data + 2]: data[i].includes(' c')? 1 : 0};
     }
-    console.log(passwords.length);
+    // console.log(passwords.length);
 }
 catch(err){
     console.log(err);
 }
 
 //answer is 660
-//jenkins
+//use to help jenkins
 //min
 //max
 //letter
 //total
 //use compound if statement to check if the password is valid
-
-//passwords = { ...passwords, [data[i]]: data[i].includes('a')? 1 : 3, [data[i] + 1]: data[i].includes(' b')? 1 : 3, [data + 2]: data[i].includes(' c')? 1 : 0};
