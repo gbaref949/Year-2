@@ -4,5 +4,15 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  }
+  },
+  "name": "year-2",
+  "description": "This is my Year 2 folder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Georgiana Barefield (https://github.com/gbaref949)",
+  "license": "MIT"
 }
