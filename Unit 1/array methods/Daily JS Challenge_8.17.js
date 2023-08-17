@@ -47,9 +47,11 @@ try {
 
     //check if the password is valid based on it's postions [1] amd [8]
     for (let i = 1; i <= password.length; i++) {
-
-        }
+      if(i === password.length){
+        
+      } 
     }
+}
 
   //get results
   console.log(vasswords);
@@ -60,7 +62,7 @@ catch (err) {
 }
 
 /* NEW JS CHALLENGE Part 1 *******
-
+//207 
 With the toboggan login problems resolved, you set off toward the airport. While travel by toboggan might be easy, it's certainly not safe: there's very minimal steering and the area is covered in trees. You'll need to see which angles will take you near the fewest trees.
 
 Due to the local geology, trees in this area only grow on exact integer coordinates in a grid. You make a map (your puzzle input) of the open squares (.) and trees (#) you can see. For example:
