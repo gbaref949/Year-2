@@ -8053,7 +8053,7 @@ const people = [
 // })
 // console.log(pol);
 
-//first last name warren above age of 20 below age 28
+// // first last name warren above age of 20 below age 28
 // let pol = people.filter((person)=>{
 //     const {age, name} = person;
 //     return (age >= 20 && age <= 28) && name.split(" ")[0,1] === "Warren";
@@ -8073,7 +8073,7 @@ const people = [
 // const numbers = [-1, -2, 20, 40, 50]
 // console.log(
 //   numbers.find(item => item > 5));
-// works like every but returns the index of the first element that passes the test implemented by the provided function.
+// // works like every but returns the index of the first element that passes the test implemented by the provided function.
 
 
 // //ARRAY METHOD-ForEach:
@@ -8122,9 +8122,9 @@ const people = [
 // //ARRAY METHOD-Some: 
 // //the some method returns true if at least one element of the array passes the test implemented by the provided function.
 
-console.log(
-  people.some((person)=>{
-      const {pet} = person;
-      return pet === "none"
-    })
-)
+// console.log(
+//   people.some((person)=>{
+//       const {pet} = person;
+//       return pet === "none"
+//     })
+// )
