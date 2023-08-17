@@ -47,8 +47,7 @@ try {
 
     //check if the password is valid based on it's postions [1] amd [8]
     for (let i = 1; i <= password.length; i++) {
-        if(password[i-1] === letter && password[i] === letter && password[i+ i] === letter) {
-            
+
         }
     }
 
