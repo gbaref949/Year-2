@@ -6,10 +6,11 @@ Using the above example again, the three entries that sum to 2020 are 979, 366, 
 In your expense report, what is the product of the three entries that sum to 2020?
 */
 
-const fs = require('fs');
+const fs = require('fs');//delcared file system
 
+//used the same code as yesterday's bellwork only I also added the 3rd nested for loop and addtional added and multiplied vvariable to get desired output 
 try{
-    const data = fs.readFileSync('Daily JS Challenge_8.15_Input.txt', 'utf-8').split('\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
+    const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.15_Input.txt', 'utf-8').split('\n');
 
     let sum = [];
     for(let i = 0; i < data.length; i++){
@@ -47,34 +48,44 @@ In the above example, 2 passwords are valid. The middle password, cdefg, is not;
 
 How many passwords are valid according to their policies? */
 
-const fs = require('fs');
+try {
 
-try{
-    const data = fs.readFileSync('Daily JS Challenge_8.16_Input.txt', 'utf-8').split('\r\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
-    let passwords = 0;
+  //import data from the txt file, used the utf-8
+  const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.16_Input.txt', 'utf-8'); 
+  //declared lines because i'm going to iterate through it in a for of loop but also that's where the split happens
+  const lines = data.split('\n');
+
+  //declared passwords this will tell the total of valid passwords
+  let vasswords = 0;
+
+  //regular for loop to much work went with for of loop because it will iterate over every line in the txt file
+  for (let line of lines) {
+  //split the policy and passowrd that way it's easier to find min and max
+    let[policy, password] = line.split(': ');
     
-    let policy = [];
-    let fletter = [];
-    let sletter = [];
-    //use for loop to check if the password is valid
-    for(let i = 0; i < data.length; i++){
-        passwords = { ...passwords, [data[i]]: data[i].includes('a')? 1 : 3, [data[i] + 1]: data[i].includes(' b')? 1 : 3, [data + 2]: data[i].includes(' c')? 1 : 0};
-        policy = data[i].split('-');
-        fletter = policy[0].split(' ');
-        sletter = policy[1].split(' ');
-        if(Number(data[i]) >= policy[0] && Number(data[i]) <= policy[1] && Number(data[i] + 1) >= policy[2] && Number(data[i] + 1) <= policy[3] && Number(data[i] + 2) >= policy[4] && Number(data[i] + 2) <= policy[5]){
-            passwords++;
-        }
-    console.log(passwords.length);
-}
-catch(err){
-    console.log(err);
-}
+    //get min, max, and letter from policy
+    let [limits, letter] = policy.split(' ');
+    let [min, max] = limits.split('-');
 
-//answer is 660
-//use to help jenkins
-//min
-//max
-//letter
-//total
-//use compound if statement to check if the password is valid
+    //loops and checks how many times the letter appears in the the password through a strict comparison
+    let count = 0;
+    for (let l of password) {
+      if (l === letter) {
+        count++;
+      }
+    }
+
+    //if the count is greater or equal to min & less than or equal to max than it will added on to the password
+    if (count >= min && count <= max) {
+      vasswords++; 
+    }
+
+  }
+
+  //get results
+  console.log(vasswords);
+
+} 
+catch (err) {
+  console.log(err);
+}
