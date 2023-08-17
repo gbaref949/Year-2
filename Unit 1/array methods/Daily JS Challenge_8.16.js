@@ -6,25 +6,25 @@ Using the above example again, the three entries that sum to 2020 are 979, 366, 
 In your expense report, what is the product of the three entries that sum to 2020?
 */
 
-const fs = require('fs');
+// const fs = require('fs');
 
-try{
-    const data = fs.readFileSync('Daily JS Challenge_8.15_Input.txt', 'utf-8').split('\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
+// try{
+//     const data = fs.readFileSync('Daily JS Challenge_8.15_Input.txt', 'utf-8').split('\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
 
-    let sum = [];
-    for(let i = 0; i < data.length; i++){
-        for(let j = i + 1; j < data.length; j++){
-            for(let k = j + 1; k < data.length; k++){
-                if(Number(data[i]) + Number(data[j]) + Number(data[k]) === 2020){
-                console.log(Number(data[i]) * Number(data[j]) * Number(data[k]));   
-            }
-            }
-        }
-    }
-}
-catch(err){
-    console.log(err);
-}
+//     let sum = [];
+//     for(let i = 0; i < data.length; i++){
+//         for(let j = i + 1; j < data.length; j++){
+//             for(let k = j + 1; k < data.length; k++){
+//                 if(Number(data[i]) + Number(data[j]) + Number(data[k]) === 2020){
+//                 console.log(Number(data[i]) * Number(data[j]) * Number(data[k]));   
+//             }
+//             }
+//         }
+//     }
+// }
+// catch(err){
+//     console.log(err);
+// }
 
 /* NEW JS CHALLENGE Part 1 *******
 
@@ -51,21 +51,28 @@ const fs = require('fs');
 
 try{
     const data = fs.readFileSync('Daily JS Challenge_8.16_Input.txt', 'utf-8').split('\r\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
-    let passwords = 0;
-    
-    let policy = [];
-    let fletter = [];
-    let sletter = [];
-    //use for loop to check if the password is valid
-    for(let i = 0; i < data.length; i++){
-        passwords = { ...passwords, [data[i]]: data[i].includes('a')? 1 : 3, [data[i] + 1]: data[i].includes(' b')? 1 : 3, [data + 2]: data[i].includes(' c')? 1 : 0};
-        policy = data[i].split('-');
-        fletter = policy[0].split(' ');
-        sletter = policy[1].split(' ');
-        if(Number(data[i]) >= policy[0] && Number(data[i]) <= policy[1] && Number(data[i] + 1) >= policy[2] && Number(data[i] + 1) <= policy[3] && Number(data[i] + 2) >= policy[4] && Number(data[i] + 2) <= policy[5]){
-            passwords++;
+    let validPasswords = 0;
+
+    for (let line of lines) {
+      const [policy, password] = line.split(': ');
+
+      const [limits, letter] = policy.split(' ');
+
+      const [min, max] = limits.split('-');
+
+      let count = 0;
+      for (let l of password) {
+        if (l === letter) {
+          count++;
         }
-    console.log(passwords.length);
+      }
+
+      if (count >= min && count <= max) {
+        validPasswords++;
+      }
+    }
+
+    console.log(validPasswords);
 }
 catch(err){
     console.log(err);
