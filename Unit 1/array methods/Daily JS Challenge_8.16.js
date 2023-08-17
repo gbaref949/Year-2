@@ -6,25 +6,26 @@ Using the above example again, the three entries that sum to 2020 are 979, 366, 
 In your expense report, what is the product of the three entries that sum to 2020?
 */
 
-// const fs = require('fs');
+const fs = require('fs');//delcared file system
 
-// try{
-//     const data = fs.readFileSync('Daily JS Challenge_8.15_Input.txt', 'utf-8').split('\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
+//used the same code as yesterday's bellwork only I also added the 3rd nested for loop and addtional added and multiplied vvariable to get desired output 
+try{
+    const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.15_Input.txt', 'utf-8').split('\n');
 
-//     let sum = [];
-//     for(let i = 0; i < data.length; i++){
-//         for(let j = i + 1; j < data.length; j++){
-//             for(let k = j + 1; k < data.length; k++){
-//                 if(Number(data[i]) + Number(data[j]) + Number(data[k]) === 2020){
-//                 console.log(Number(data[i]) * Number(data[j]) * Number(data[k]));   
-//             }
-//             }
-//         }
-//     }
-// }
-// catch(err){
-//     console.log(err);
-// }
+    let sum = [];
+    for(let i = 0; i < data.length; i++){
+        for(let j = i + 1; j < data.length; j++){
+            for(let k = j + 1; k < data.length; k++){
+                if(Number(data[i]) + Number(data[j]) + Number(data[k]) === 2020){
+                console.log(Number(data[i]) * Number(data[j]) * Number(data[k]));   
+            }
+            }
+        }
+    }
+}
+catch(err){
+    console.log(err);
+}
 
 /* NEW JS CHALLENGE Part 1 *******
 
@@ -47,41 +48,44 @@ In the above example, 2 passwords are valid. The middle password, cdefg, is not;
 
 How many passwords are valid according to their policies? */
 
-const fs = require('fs');
+try {
 
-try{
-    const data = fs.readFileSync('Daily JS Challenge_8.16_Input.txt', 'utf-8').split('\r\n');//the split is only for this assignment since we are working with and array we can move it as we please but everything else is gonna be our structure
-    let validPasswords = 0;
+  //import data from the txt file, used the utf-8
+  const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.16_Input.txt', 'utf-8'); 
+  //declared lines because i'm going to iterate through it in a for of loop but also that's where the split happens
+  const lines = data.split('\n');
 
-    for (let line of lines) {
-      const [policy, password] = line.split(': ');
+  //declared passwords this will tell the total of valid passwords
+  let vasswords = 0;
 
-      const [limits, letter] = policy.split(' ');
+  //regular for loop to much work went with for of loop because it will iterate over every line in the txt file
+  for (let line of lines) {
+  //split the policy and passowrd that way it's easier to find min and max
+    let[policy, password] = line.split(': ');
+    
+    //get min, max, and letter from policy
+    let [limits, letter] = policy.split(' ');
+    let [min, max] = limits.split('-');
 
-      const [min, max] = limits.split('-');
-
-      let count = 0;
-      for (let l of password) {
-        if (l === letter) {
-          count++;
-        }
-      }
-
-      if (count >= min && count <= max) {
-        validPasswords++;
+    //loops and checks how many times the letter appears in the the password through a strict comparison
+    let count = 0;
+    for (let l of password) {
+      if (l === letter) {
+        count++;
       }
     }
 
-    console.log(validPasswords);
-}
-catch(err){
-    console.log(err);
-}
+    //if the count is greater or equal to min & less than or equal to max than it will added on to the password
+    if (count >= min && count <= max) {
+      vasswords++; 
+    }
 
-//answer is 660
-//use to help jenkins
-//min
-//max
-//letter
-//total
-//use compound if statement to check if the password is valid
+  }
+
+  //get results
+  console.log(vasswords);
+
+} 
+catch (err) {
+  console.log(err);
+}
