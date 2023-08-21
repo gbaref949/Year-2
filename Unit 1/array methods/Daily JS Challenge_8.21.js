@@ -41,7 +41,7 @@ According to the above rules, your improved system would report 2 valid passport
 
 Count the number of valid passports - those that have all required fields. Treat cid as optional. In your batch file, how many passports are valid?
 
-//208
+//208 is close but not rigth
 
 use these resources: https://bobbyhadz.com/blog/javascript-split-string-by-index
 */
