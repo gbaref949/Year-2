@@ -48,17 +48,18 @@ const fs = require('fs');
 try {
 
   //import data from the txt file, used the utf-8
-  const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.21_Input.txt', 'utf-8');
-  let data2 = data.split("ecl", "pid", "eyr", "hcl", "byr", "iyr", "cid", "hgt");
-  let data3 = data2.push(data);
+  const data = fs.readFileSync('Daily JS Challenge_8.21_Input.txt', 'utf-8');
+  // let data2 = data.split("ecl", "pid", "eyr", "hcl", "byr", "iyr", "cid", "hgt");
+  // let data3 = data2.push(data);
+  //this was it harder than just doing it in the loop
 
   //declared lines because i'm going to iterate through it in a for of loop but also that's where the split happens
 
   //declared passwords this will tell the total of valid passwords
   let vasswords = 0;
 
-  for(let d of data3) {
-    let[requirements, fulfill] = d.split(': ');
+  for(let d of data) {
+    let[requirements, fulfill] = d.split("ecl", "pid", "eyr", "hcl", "byr", "iyr", "cid", "hgt");
     
     //get min, max, and letter from policy
     let [limits, letter] = requirements.split(' ');
