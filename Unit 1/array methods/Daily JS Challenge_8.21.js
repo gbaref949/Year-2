@@ -45,46 +45,40 @@ Count the number of valid passports - those that have all required fields. Treat
 
 use these resources: https://bobbyhadz.com/blog/javascript-split-string-by-index
 */
+
 const fs = require('fs');
 
 try {
+  //import the data from txt file
+  const data = fs.readFileSync('Unit 1/array methods/Daily JS Challenge_8.21_Input.txt', 'utf-8').split('\r\n\r\n');
+  //delcare var that check for valid passports 
+  //set at 0 so it can be iterated over
+  let vpassports = 0; 
 
-  //import data from the txt file, used the utf-8
-  const data = fs.readFileSync('Daily JS Challenge_8.21_Input.txt', 'utf-8');
-  // let data2 = data.split("ecl", "pid", "eyr", "hcl", "byr", "iyr", "cid", "hgt");
-  // let data3 = data2.push(data);
-  //this was it harder than just doing it in the loop
-
-  //declared lines because i'm going to iterate through it in a for of loop but also that's where the split happens
-
-  //declared passwords this will tell the total of valid passwords
-  let vasswords = 0;
-
-  for(let d of data) {
-    let[requirements, fulfill] = d.split("ecl", "pid", "eyr", "hcl", "byr", "iyr", "cid", "hgt");
-    
-    //get min, max, and letter from policy
-    let [limits, letter] = requirements.split(' ');
-    let [min, max] = limits.split('-');
-
-    let count = 0;
-
-  for( let l of fulfill){
-    if(l === letter.includes(["ecl", "pid", "eyr", "hcl", "byr", "iyr", "hgt"])){
-        count++;
-    }
-  }
-
-  //if the count is greater or equal to min & less than or equal to max than it will added on to the password
-    if (count >= min && count <= max) {
-      vasswords++; 
+  //use for-of loop because easier for me to read than a standard for loop
+  for (let d of data) {
+    //iterate through d acessing data
+    if (
+      //used an if statement that will check if these keywords are included to validate 
+      //that it's a vpassports
+      d.includes('ecl') &&
+      d.includes('pid') &&
+      d.includes('eyr') &&
+      d.includes('hcl') &&
+      d.includes('byr') &&
+      d.includes('iyr') &&
+      d.includes('hgt')
+    ) {
+      vpassports++;//if that's true then adds on
     }
 
-    //get results
-  console.log(vasswords);
   }
-  
+
+  //console vpassports after its been iterated through
+  console.log(vpassports);
+
 } 
-catch (err) {
+
+catch (err) {//the catch statement will get any errors
   console.log(err);
 }
