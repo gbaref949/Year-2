@@ -37,3 +37,17 @@ This list represents answers from five groups:
 In this example, the sum of these counts is 3 + 3 + 3 + 1 + 1 = 11.
 
 For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts?*/
+
+const fs = require('fs');
+
+try {
+  //accessed data from input file
+  const data = fs.readFileSync('Year-2/Unit 1/array methods/Daily JS Challenge_8.23_Input.txt', 'utf-8');
+    // console.log(data);//had to check how the data is looking 
+    
+} 
+
+catch (err) {
+  //the catch statement will get any errors
+  console.log(err);
+}
