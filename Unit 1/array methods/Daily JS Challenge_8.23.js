@@ -1,4 +1,6 @@
 /*
+Answer is within the 6612
+
 As your flight approaches the regional airport where you'll switch to a much larger plane, customs declaration forms are distributed to the passengers.
 
 The form asks a series of 26 yes-or-no questions marked a through z. All you need to do is identify the questions for which anyone in your group answers "yes". Since your group is just you, this doesn't take very long.
@@ -42,9 +44,26 @@ const fs = require('fs');
 
 try {
   //accessed data from input file
-  const data = fs.readFileSync('Year-2/Unit 1/array methods/Daily JS Challenge_8.23_Input.txt', 'utf-8');
-    // console.log(data);//had to check how the data is looking 
-    
+  const data = fs.readFileSync('Daily JS Challenge_8.23_Input.txt', 'utf-8').split('\r\n');
+    console.log(data);//had to check how the data is looking 
+    let count = 0;//decalred var, set to 0 so it can be iterated over
+
+    //looking for a group that only has one letter in there group //then reset it to get the count
+    for (let d of data){
+      if(//used or because when I used && it was only 57
+      d.includes('a') ||
+      d.includes('b') ||
+      d.includes('c') ||
+      d.includes('x') ||
+      d.includes('y') ||
+      d.includes('z')
+      ){
+        count++;//if it include any of those letter then it adds on 
+      }
+
+    }
+    //ouput
+    console.log(count);
 } 
 
 catch (err) {
