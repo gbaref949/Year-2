@@ -35,7 +35,9 @@ const file = fs.createWriteStream(
 file.end(); //tell the writter that has opened the file to stop
 server.on('request', (req, res) => {
   fs.readFile(path.join(__dirname, '/content/newBigFile.txt'), (err, data) => {
-    if (err) console.log(err);
+    if (err) {
+      console.log(err);
+    }
     res.end(data);
   });
 });
