@@ -40,6 +40,6 @@ server.on('request', (req, res) => {
   });
 });
 
-server.listen(5000);
+server.listen(8000);
 //Create a readablestrem instead
 // const src = fs.createReadStream(path.join(__dirname, "/content/newBigFile.txt"))
