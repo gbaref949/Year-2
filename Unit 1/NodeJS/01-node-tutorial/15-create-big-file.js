@@ -34,7 +34,7 @@ const file = fs.createWriteStream(
 // } //it chucks the string and repeats the chuncks it is faster; about the same size as messages
 file.end(); //tell the writter that has opened the file to stop
 server.on('request', (req, res) => {
-  fs.readFile(path.join(__dirname, '/content/newBigFile.txt'), (err, res) => {
+  fs.readFile(path.join(__dirname, '/content/newBigFile.txt'), (err, data) => {
     if (err) console.log(err);
     res.end(data);
   });
