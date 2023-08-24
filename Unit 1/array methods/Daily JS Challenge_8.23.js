@@ -53,21 +53,20 @@ try {
   let letters = new Set();
 
   //looking for a group that only has one letter in there group //then reset it to get the count
-  for (let d of data) {
-    letters.clear();
-    let groupCount = 0;
-
-    for (let person of d.split('')) {
-      for (let l of person) {
-        if (!letters.has(l)) {
-          letters.add(l);
-          groupCount++;
-        }
+  for (let group of data) {
+    if (group === '') {
+      // Empty line indicates the end of a group
+      count += letters.size; // Count the unique letters in the group
+      letters.clear(); // Clear the set for the next group
+    } else {
+      for (let person of group) {
+        letters.add(person); // Add each person's answers to the set
       }
     }
-
-    count += groupCount;
   }
+
+  // Add the count of the last group (since there's no empty line after the last group)
+  count += letters.size;
   //ouput
   console.log(count);
 } catch (err) {
