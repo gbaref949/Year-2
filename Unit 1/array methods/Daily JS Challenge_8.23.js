@@ -1,6 +1,4 @@
 /*
-Answer is within the 6612
-
 As your flight approaches the regional airport where you'll switch to a much larger plane, customs declaration forms are distributed to the passengers.
 
 The form asks a series of 26 yes-or-no questions marked a through z. All you need to do is identify the questions for which anyone in your group answers "yes". Since your group is just you, this doesn't take very long.
@@ -44,29 +42,35 @@ const fs = require('fs');
 
 try {
   //accessed data from input file
-  const data = fs.readFileSync('Daily JS Challenge_8.23_Input.txt', 'utf-8').split('\r\n');
-    console.log(data);//had to check how the data is looking 
-    let count = 0;//decalred var, set to 0 so it can be iterated over
+  const data = fs
+    .readFileSync(
+      'Unit 1/array methods/Daily JS Challenge_8.23_Input.txt',
+      'utf-8'
+    )
+    .split('\r\n');
+  // console.log(data.length); //had to check how the data is looking
+  let count = 0; //decalred var, set to 0 so it can be iterated over
+  let letters = new Set();
 
-    //looking for a group that only has one letter in there group //then reset it to get the count
-    for (let d of data){
-      if(//used or because when I used && it was only 57
-      d.includes('a') ||
-      d.includes('b') ||
-      d.includes('c') ||
-      d.includes('x') ||
-      d.includes('y') ||
-      d.includes('z')
-      ){
-        count++;//if it include any of those letter then it adds on 
+  //looking for a group that only has one letter in there group //then reset it to get the count
+  for (let d of data) {
+    letters.clear();
+    let groupCount = 0;
+
+    for (let person of d.split('')) {
+      for (let l of person) {
+        if (!letters.has(l)) {
+          letters.add(l);
+          groupCount++;
+        }
       }
-
     }
-    //ouput
-    console.log(count);
-} 
 
-catch (err) {
+    count += groupCount;
+  }
+  //ouput
+  console.log(count);
+} catch (err) {
   //the catch statement will get any errors
   console.log(err);
 }
