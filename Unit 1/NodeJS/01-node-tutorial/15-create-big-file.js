@@ -9,8 +9,27 @@ for (let i = 0; i < 1000; i++) {
 }
 //10^5
 //every bit of data is overwrites the last bit of data
-for (let i = 0; i < 1000; i++) {
+writeFileSync(path.join(__dirname, '/content/bigFile.txt'), message, {
+  flag: 'w',
+});
+
+//Error Issues:
+for (let i = 0; i < 10000; i++) {
   writeFileSync(path.join(__dirname, '/content/bigFile.txt'), message, {
-    flag: 'w',
+    flag: 'r',
   });
-}
+} //errors out because you are trying to write to a read-only file
+
+//Or Writestreams
+
+const fs = require('fs');
+const server = require('http').createServer();
+const file = fs.createWriteStream(
+  path.join(__dirname, './content/newBigFile.txt')
+);
+for (let i = 0; i < 1e6; i++) {
+  file.write(
+    'Lorem ipsum dolor sit amet. In illum quod sit reiciendis omnis et enim quis est galisum illum a nihil cupiditate nam voluptate quas qui inventore consequuntur. Sit iusto sunt cum rerum natus et dolore libero ad quia facere non illo sapiente sit sunt quia hic laborum architecto. Eum dolor nisi eos labore accusamus et porro laudantium. \n'
+  );
+} //it chucks the string and repeats the chuncks it is faster; about the same size as messages
+file.end(); //tell the writter that has opened the file to stop
