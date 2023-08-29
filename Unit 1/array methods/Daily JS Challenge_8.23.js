@@ -44,7 +44,7 @@ try {
   //accessed data from input file
   const data = fs
     .readFileSync(
-      'Unit 1/array methods/Daily JS Challenge_8.23_Input.txt',
+      'Daily JS Challenge_8.23_Input.txt',
       'utf-8'
     )
     .split('\r\n');
