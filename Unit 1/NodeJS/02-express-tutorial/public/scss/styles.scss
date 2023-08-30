@@ -1,0 +1,136 @@
+//imported scss partials
+@import "./partials/footer", "./partials/nav", "./partials/reset", "./partials/utillities";
+//imported font styles
+
+//setup color variable names
+$main-color: #E8DCD4;
+$secondary-color: #17172B;
+$accent-color: #66ADAB;
+$accent1-color: #A37F6F;
+$accent2-color: #8B635C;
+$text-color: #ceacbd;
+//set up font & border variable names
+$border-color: navy;
+$font-weight: (
+    "small":300,
+    "medium":500,
+    "large": 700,
+);
+
+body {
+    background: $main-color;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.bannerWords {
+    position: absolute;
+    text-shadow: $text-color 4px 4px;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    text-align: center;
+    width: 100%;
+}
+
+.bannerText {
+    font-size: 5rem;
+    font-weight: 200;
+    margin-bottom: 1em;
+}
+
+.parent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.centered-text {
+    font-size: 24px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    // animation-name: move;
+    // animation-delay: 0s;
+    // animation-duration: 7s;
+    // animation-fill-mode: forwards;
+}
+
+/* uses the move animation and tells it where to go */
+// @keyframes move {
+//     from {
+//         left: 0rem
+//     }
+
+//     to {
+//         left: 22.5rem
+//     }
+// }
+
+// // Media queries
+
+// @media (max-width: 576px) {
+
+//     .bannerText {
+//         font-size: 2rem;
+//     }
+
+//     .logo {
+//         width: 30px;
+//         height: 30px;
+//     }
+
+//     .menu-btn {
+//         right: 10px;
+//         top: 10px;
+//         height: 30px;
+//         width: 30px;
+//         font-size: 14px;
+//     }
+
+//     .wrapper ul li a {
+//         font-size: 20px;
+//         padding: 5px 15px;
+//     }
+
+// }
+
+// @media (min-width: 577px) {
+
+//     .bannerText {
+//         font-size: 3rem;
+//     }
+
+//     .logo,
+//     .menu-btn {
+//         position: static;
+//     }
+
+//     // Modify menu for desktop
+//     .wrapper ul {
+//         display: flex;
+//         justify-content: center;
+//     }
+
+//     .wrapper li {
+//         margin: 0 10px;
+//     }
+
+// }
+
+// @media (min-width: 992px) {
+
+//     .bannerText {
+//         font-size: 5rem;
+//     }
+
+//     // Restore absolute positioning
+//     .logo,
+//     .menu-btn {
+//         position: absolute;
+//     }
+
+// }
