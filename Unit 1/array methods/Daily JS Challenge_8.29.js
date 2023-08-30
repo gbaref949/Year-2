@@ -37,38 +37,35 @@ try {
   //accessed data from input file
   const data = fs
     .readFileSync(
-      'Daily JS Challenge_8.29_Input.txt',
+      'Unit 1/array methods/Daily JS Challenge_8.29_Input.txt',
       'utf-8'
     )
     .split('\r\n');
 
-    //console.log(data.length); //had to check how the data is looking //ouputs 594
+  //console.log(data.length); //had to check how the data is looking //ouputs 594
 
-    //we are searching for bags that have at least one shiney gold bag
-    //I went through the input and found that the lines that contain this bag is: 53,127,332,512, & 576
-    //I'm going to create a standard for-loop that runs looks specially at these lines and go through how mny bags contain that shiny bag
+  //I went through the input and found that the lines that contain this bag is: 53,127,332,512,&576
+  //I'm going to create a standard for-loop that runs looks specially at these lines and go through how mny bags contain that shiny bag
 
-    //delcare var that check for the count of shiny bags
-    let count = 0; //decalred var, set to 0 so it can be iterated over
-    let bags = new Set();
+  //used regex to search for the shiny gold bags
+  let regex = /shiny gold bag/;
 
-    //looking for a group that only has one letter in there group //then reset it to get the count
-    for (let group of data) {
-        if (group === 'shiny gold bag') {
-        //a empty line indicates the end of a group
-        count += bags.size; //counted the unique letters in the group
-        bags.clear(); //cleared the set for the next group
-        } else {
-        for (let sbags of group) {
-            bags.add(sbags); //added each person's answers to the set
-        }
-        }
+  //have an empty array that will added the shiny bags
+  let contains = {};
+
+  //iterate over the data to look loojk for the line that have the shiny bags
+  for (const line of data) {
+    if (regex.test(line)) {
+      const bagColor = line.split(' ')[0];
+      contains[bagColor] = true;
     }
+  }
 
-    //added the count of the last group (since there's no empty line after the last group)
-    count += bags.size;
-    //ouput
-    console.log(count);
+  //count the number of bag colors that can contain shiny gold
+  let count = Object.keys(contains).length;
+
+  //output the count
+  console.log(count);
 } catch (err) {
   //the catch statement will get any errors
   console.log(err);
