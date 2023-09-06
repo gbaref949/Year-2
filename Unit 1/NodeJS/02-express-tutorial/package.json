@@ -4,7 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "01-http": "nodemon 01-http-basics.js",
+    "03-exp": "nodemon 03-express-basics.js"
   },
   "keywords": [],
   "author": "Georgiana Barefield (https://github.com/gbaref949)",
