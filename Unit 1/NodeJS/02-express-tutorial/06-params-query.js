@@ -15,6 +15,22 @@ app.get('/api/products', (req, res) => {
     })
     res.json(newProducts);
 })
+
+//This is how you set up params for the data query 
+
+app.get('/api/products/:productID', (req, res) => {
+    console.log(req.params)
+    const {productID} = req.params
+    const singleProduct = products.find(
+        //You will always get back a number
+        (product) => product.id === Number(productID)
+    )
+    if(!singleProduct) {
+        return res.status(404).send('Product not found')
+    }
+    return res.json(singleProduct)
+})
+
 app.listen(5000, () => {
     console.log('listening on port 5000');
   });
