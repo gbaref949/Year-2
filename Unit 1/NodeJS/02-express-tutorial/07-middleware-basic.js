@@ -10,7 +10,7 @@ const logger = (req, res, next) =>{
     console.log(method, url, time)
     //This is an example of terminating your code in the middleware
     //res.send('testing')
-    next()
+    next()// if you don't have next at the bottom of your specific middleware yoru process won't finish 
 }
 
 app.get('/',logger, (req, res, next) => {
