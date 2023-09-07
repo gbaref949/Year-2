@@ -1,5 +1,5 @@
 //use the fs modeule and print out the filelist of ypur desktop
-const path = require('path');
+const path = require('path');kkkk
 const fs = require('fs');
 //joining path of directory
 const directoryPath = path.join(
