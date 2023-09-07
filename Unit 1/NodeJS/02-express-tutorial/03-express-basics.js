@@ -15,4 +15,16 @@ app.all('*', (req, res) => {
 })
 
 app.listen(5000, () => {
-    console.log("Listening on http://localhost/5000")})
+    console.log("Listening on http://localhost:5000/")})
+
+/*
+app.get
+app.post
+app.put
+app.delete
+app.patch
+app.all
+app.use
+app.listen
+app.patch
+*/

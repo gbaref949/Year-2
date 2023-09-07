@@ -7,7 +7,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "01-http": "nodemon 01-http-basics.js",
-    "03-exp": "nodemon 03-express-basics.js"
+    "04-exp": "nodemon 04-express-app.js"
   },
   "keywords": [],
   "author": "Georgiana Barefield (https://github.com/gbaref949)",
