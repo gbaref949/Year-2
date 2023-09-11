@@ -10,7 +10,7 @@ const authorize = (req,res,next) => {
         next()
     }else{
         console.log('Authorize Access Denied')
-        res.send({results:[], status:401, message: "Access Denied"})
+        res.send({results:[], status:404, message: "Access Denied"})
         //next() don't push them onto a responses if they fail the auth check
     }
 }
