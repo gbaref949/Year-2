@@ -5,79 +5,56 @@ Re-names all files in the folder using a string template with an increasing numb
 
 Extra Credit(10)
 Create an HTML user interface using node Allowing for more customizations and individual file selection for renaming. You may need libraries like no-cors 
-
+bbb
 Make sure that the user interface for HTML can point to a folder and navigate to find the correct folder
 Make sure the JS has a string template for renaming
 RETURN THE JS FILE WITH THE CODE
 */
+// Import necessary Node.js modules
+const fs = require('fs'); // File System module for reading and renaming files
+const path = require('path'); // Path module for working with file paths
+const http = require('http'); // HTTP module for creating a server
+const express = require('express'); // Express.js framework for serving web pages
+const bodyParser = require('body-parser'); // Middleware for parsing form data
 
-//defined the fs and path modules
-const fs = require('fs');
-const path = require('path');
+const app = express(); // Create an Express application
+const port = 3000; // Specify the port for the server to listen on
 
-import { appendFile } from 'node:fs';
+// Serve HTML with a file input and customization options when the user accesses the root URL ("/")
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html')); // Send the HTML file to the client
+});
 
-//joining path of directory
-const directoryPath = path.join(
-  __dirname,
-  '../../../../../../gbaref949/'
-);
-//passsing directoryPath and callback function
-fs.readdir(directoryPath, function (err, files) {
-  //handling error
-  if (err) {
-    return console.log('Unable to scan directory: ' + err);
-  }
-  //listing all files using forEach
-  files.forEach(function (file) {
-    // Do whatever you want to do with the file
-    console.log(file);
+app.use(bodyParser.urlencoded({ extended: true })); // Use bodyParser to parse form data
+
+// Handle file upload and renaming when the user submits the form data to "/upload"
+app.post('/upload', (req, res) => {
+  const directoryPath = req.body.folderPath; // Get the folder path from the submitted form data
+  const template = req.body.template; // Get the renaming template from the submitted form data
+
+  // Read the contents of the specified directory
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      return res.send('Unable to scan directory: ' + err); // Handle errors when reading the directory
+    }
+
+    // Loop through each file in the directory
+    files.forEach((file, index) => {
+      const fileExt = path.extname(file); // Get the file's extension (e.g., ".txt", ".jpg")
+      const newName = template.replace('{{index}}', index + 1) + fileExt; // Create the new file name based on the template
+      const oldPath = path.join(directoryPath, file); // Get the old file's path
+      const newPath = path.join(directoryPath, newName); // Get the new file's path
+
+      // Rename the file using the new path and name
+      fs.renameSync(oldPath, newPath);
+    });
+
+    res.send('Files renamed successfully!'); // Send a success message back to the client
   });
 });
 
-//renamed files
-fs.renameSync(
-  path.join(__dirname, 'New Text Document.txt'),
-  path.join(__dirname, '')
-);
-fs.renameSync(
-  path.join(__dirname, 'New Text Document (2).txt'),
-  path.join(__dirname, '')
-);
-fs.renameSync(
-  path.join(__dirname, 'New Rich Text Document.rtf'),
-  path.join(__dirname, '')
-);
-
-//renamed and moved files
-fs.renameSync(
-  path.join(__dirname, './tryThis/New Text Document.txt'),
-  path.join(__dirname, '')
-);
-
-//just added it since easier
-appendFile('message.txt', 'data to append', (err) => {
-  if (err) throw err;
-  console.log('The "data to append" was appended to file!');
+// Create an HTTP server using Express and start listening on the specified port
+const server = http.createServer(app);
+server.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
-
-//this gets the last word in the files
-let files = [
-  'Latin gobbledygook.txt',
-  'Princess Bubblegum is a problem.txt',
-  'Learning is Hard.txt',
-  'Regular Bros Show.txt',
-];
-
-let lastWords = [];
-files.forEach((file) => {
-  const content = fs.readFileSync(path.join(__dirname, file), 'utf8');
-  const words = content.split(' ');
-  lastWords.push(words[words.length - 1]);
-});
-
-//the writes the last words to answer.js
-fs.writeFileSync(
-  path.join(__dirname, './Answer/answer.js'),
-  lastWords.join(' ')
-);
