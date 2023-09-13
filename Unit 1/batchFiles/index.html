@@ -8,17 +8,24 @@
 </head>
 
 <body>
-    <h1>File Renamer</h1>
+    <h1>File Renamer</h1> 
+    <!-- this is the header the html file -->
     <form action="/upload" method="post">
+        <!-- access the /upload res from the js file then will take the new infromation and replace it  -->
         <label for="folderPath">Folder Path:</label>
+        <!-- labled the  folder path -->
         <input type="text" name="folderPath" required><br>
-        <label for="template">Renaming Template:</label>
+        <label for="template">Renaming Folder:</label>
+        <!-- labled the  folder renamer ---->
         <input type="text" name="template" required>
-        <p>Use '{{index}}' in the template to represent the file order.</p>
+        <p>Use '{{index}}' in the renamer to represent the file order.</p>
+        <!-- this is a instructions so the user know how to input it -->
         <button type="submit">Rename Files</button>
+        <!-- a submit button that will rename the file -->
     </form>
 
     <script src="./script.js"></script>
+    <!-- access the script files and writes it onto the html page -->
 </body>
 
 </html>
