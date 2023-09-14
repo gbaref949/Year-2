@@ -12,7 +12,7 @@ app.get('/', (req,res) =>{
     res.send('Welcome home')
 })
 
-app.get('/bout', (req,res) =>{
+app.get('/about', (req,res) =>{
     res.send('About')
 })
 

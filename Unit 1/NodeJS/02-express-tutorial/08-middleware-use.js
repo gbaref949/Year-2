@@ -11,8 +11,8 @@ app.use(logger)//moddifiers for the express router
 if you have several middle wate then you can call them in an array where order matters
 api/home/products
 
-//API's (https://rapidapi.com/hub)
-//https://documenter.getpostman.com/view/9595116/SW7dWSG1
+https://rapidapi.com/hub
+https://documenter.getpostman.com/view/9595116/SW7dWSG1
 */
 
 app.get('/', (req,res)=>{

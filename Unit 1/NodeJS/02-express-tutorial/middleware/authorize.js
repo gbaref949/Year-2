@@ -1,6 +1,6 @@
 const authorize = (req,res,next) => {
     //an example of how API keys can be used.
-    //Not for real use , this is a smalle xample
+    //Not for real use , this is a small example
 
     const {apiKey} = req.query
     if(apiKey === 'ping') {
