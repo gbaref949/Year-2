@@ -12,73 +12,54 @@ A way to query the menu based on category
 A way to sort the menu based on price, asc, and dec
 */
 
-//Lets go nodemon and postman
-const express = require('express');  //declared a express.js framework for serving web pages
+//declared the variables needed
+const express = require('express');
 const app = express();
 const { menu } = require('./menu');
 const port = 5000;
+const http = require('http');
 
+// middleware needed  to parse JSON req
+app.use(express.json());
 
-app.use(express.static(path.join(__dirname, '/api')));
-app.get('/', (req, res) =>{
-    console.log(req.url);
-    res.sendFile(path.join(__dirname, '/api'))
-    //res.send('<h1> Home Page </h1> <a href="/api/menu">Menu</a>');
-})
+//used app.get to display every item by title and each unique category
+app.get('/', (req, res) => {
+  const menuTitles = menu.map((item) => ({ id: item.id, title: item.title }));
+  const uniqueCategories = [...new Set(menu.map((item) => item.category))];
+  res.json({ menuTitles, categories: uniqueCategories });
+});
 
-//Return all menu items
+//then used .find to look through each menu item by id using params
+app.get('/api/menu/:id', (req, res) => {
+  const { id } = req.params;
+  const item = menu.find((item) => item.id === id);
+  if (item) {
+    res.json(item);
+  } else {
+    res.status(404).json({ error: 'Item not found' });
+  }
+});
+
+//finally I queried the menu based on category
 app.get('/api/menu', (req, res) => {
-    const newMenu = menu.map((menu) => {
-        const { id, name, age } = menu
-        return { id, name, age }
-    })
-    res.json(newMenu);
-})
+  const { category, sort } = req.query;
 
-//This is how you set up params for the data query 
+  let filteredMenu = [...menu];
 
-app.get('/api/menu/:menuID', (req, res) => {
-    console.log(req.params)
-    const { menuID } = req.params
-    const singleMenu = menu.find(
-        //You will always get back a number
-        (menu) => menu.id === Number(menuID)
-    )
-    if (!singleMenu) {
-        return res.status(404).send('Menu not found')
-    }
-    return res.json(singleMenu)
-})
+  if (category) {
+    filteredMenu = filteredMenu.filter((item) => item.category === category);
+  }
 
-//returns an object that holds all of the params from the url as propertoes
-app.get('/api/menu/:menuID/category/:categoryID', (req, res) => {
-    console.log(req.params)
-    res.send("This menu has been reviewed by a person: It's the best there is 10/10 would buy again!")
-})
+  if (sort === 'asc') {
+    filteredMenu.sort((a, b) => a.price - b.price);
+  } else if (sort === 'desc') {
+    filteredMenu.sort((a, b) => b.price - a.price);
+  }
 
-//Sets up a query that you can grab
-app.get('/api/v1/query', (req, res) => {
-    console.log(req.query)
-    const {search, limit} = req.query
-    let sortedMenu = [... menu]
-    if(search){
-        sortedMenu = sortedMenu.filter((menu) => {
-            return menu.name.startsWith(search)
-        })
-    }
-    if(limit){
-        sortedMenu = sortedMenu.slice(0,Number(limit))
-    }
-    if(sortedMenu.length < 1){
-        return res.status(200).json({sucess:true, data:[]})
-    }
-    res.status(200).json(sortedMenu)
-})
+  res.json(filteredMenu);
+});
 
-app.get('*', (req, res) =>{
-    res.status(404).send("404 Not Found")
-})
-
+//created a sever port for the api to listen on
 const server = http.createServer(app);
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
