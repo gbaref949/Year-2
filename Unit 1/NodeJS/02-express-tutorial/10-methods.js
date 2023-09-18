@@ -40,3 +40,14 @@ app.post('/login', (req, res) => {
     res.status("please Provide Credentials")
 })
 
+/* Part 1: Above 
+
+The abpve bring in the public folder from berfore and then handles the index and javascrip version. The JS file the form in a sperate JS file then the public folder so we can see that load alongside
+the html. The /api/people can rtest by going to the URL, but the use in the sciprt.js where we call with an async await
+
+The get for the api/people is for our testing but then the post will be for the req from the script.js
+*/
+
+//Testing Program: 
+
+
