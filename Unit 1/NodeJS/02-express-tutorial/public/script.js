@@ -1,5 +1,4 @@
-const results = document.querySelector(".result")//this will excute on the client side not the browser
-
+const result = document.querySelector(".result")//this will excute on the client side not the browser
 const fetchPeople = async() =>{
     try{
         const{data} = await axois.get('/api/people')
@@ -22,7 +21,17 @@ const btn = document.querySelector('.submit-btn');
 const input = document.querySelector('.form-input');
 const formAlert = document.querySelector('.form-alert');
 
-btn.addEventListener("click", async (e) => {
+btn.addEventListener("click", async (e) => {//if this wasn't here then when you hit submit it would load a blank page
     e.preventDefault();
     const nameValue = input.value
-})//prevents default action of submitting and reloading form
+
+    try{
+        const {data} = await axios.post("/api/people", {name:nameValue})
+        const h5 = document.createElement("h5")
+        result.appendChild(h5)
+    }catch(error){
+        formAlert.textContent = error.response.data.msg;
+    }
+    input.value = ""
+})//prevents default action of submitting and reloading form, we will handle the methods of submit and where it goes
+
