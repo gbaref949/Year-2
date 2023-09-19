@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended:false}))//no objs just arrays and strings,
 app.use(express.json())//anything a json
 
 app.get('/api/people', (req, res) => {
-    req.json({success: true, data:people});
+    res.json({success: true, data:people});
 })//outputs a json full of people
 
 app.post('/api/people', (req, res) => {
@@ -48,6 +48,53 @@ the html. The /api/people can rtest by going to the URL, but the use in the scip
 The get for the api/people is for our testing but then the post will be for the req from the script.js
 */
 
-//Testing Program: 
+//Testing Postman: 
+let length = people.length + 1
+app.post('/api/postman/people', (req, res) => {
+    const {name,id} = req.body
+    let person = {id: length++, name:name}
+    if(!name){
+        return res.status(400).json({data:[], success:false, msg:"Please enter a name"})
+    }
+    res.status(201).json({success:true, data:[... people, person]})
+})
 
 
+//Put res
+app.put('/api/postman/:id', (req, res) => {
+    const {id} = req.params
+    const {name} = req.body
+    const person = people.find((person) => person.id === Number(id))
+
+    if(!person){
+        return res.json({success:false, data:[]})
+    }
+
+    const newPeople = people.map((person) =>{
+        if(person.id === Number(id)){
+            person.name = name
+        }
+        return person
+    })
+    res.status(202).json({data:newPeople, success:true})
+})
+
+//Delte Request
+app.delete('/api/people/:id', (req, res) => {
+    const {id} = req.params
+    const person = people.find((person) => person.id === Number(id))
+
+    if(!person){
+        return res.status(404).json({success:false, msg: 'No matching ID found'})
+    }
+
+    people = people.filter((person) => {
+        return person.id !== Number(id)
+    })
+    res.status(202).json({data:people, success:true})
+})
+
+//Server Listen 
+app.listen(5000, ()=>{
+    console.log('Server is listening on Port 5000')
+})
