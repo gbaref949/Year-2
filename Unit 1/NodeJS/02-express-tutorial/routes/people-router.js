@@ -33,10 +33,11 @@ router.put('/:id', (req, res) => {
         }
         return person
     })
+
     res.status(202).json({data:newPeople, success:true})
 })
 
-app.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     const {id} = req.params
     const person = people.find((person) => person.id === Number(id))
 

@@ -5,7 +5,7 @@ const router = express.Router()
 router.post('/',(req, res) => {
     console.log(req.body)
     const {name} = req.body
-    if(name){
+    if(name == "Georgie"){
         return res.json({status:200, data:name})
     }
     res.send("Please Provide Crenditials")

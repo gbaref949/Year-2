@@ -6,6 +6,6 @@ const {createPeople: createPeople, readPeople, updatePeople, deletePeople} = req
 router.get('/', readPeople);
 router.post('/', createPeople);
 router.put('/:id', updatePeople);
-router.delete('/:id', deletePeoplePeople);
+router.delete('/:id', deletePeople);
 
 module.exports = router;
