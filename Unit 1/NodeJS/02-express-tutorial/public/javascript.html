@@ -16,6 +16,28 @@
             </div>
         </div>
     </nav>
+    <main>
+        <section>
+            <form>
+                <h3>Javascript Form</h3>
+                <div class="form-row">
+                    <label for="name">enter name</label>
+                    <input type="text" name="name" id="name" class="form-input" autocomplete="false"/>
+                    <small class="form-alert"></small>
+                </div>
+                <button type="submit" class="button submit-btn">submit</button>
+            </form>
+            <div class="result"></div>
+            <div class="dropdown">
+                <button type="button" onclick="myFunction()" class="button submit-btn">Make Changes?</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="#">Edit</a>
+                    <a href="#">Delete</a>
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>

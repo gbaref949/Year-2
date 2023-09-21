@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon 08-middleware-use.js",
+    "dev": "nodemon 11-router-app.js",
     "01-http": "nodemon 01-http-basics.js",
     "04-exp": "nodemon 04-express-app.js"
   },

@@ -5,6 +5,7 @@ const app = express();
 //ur app.js should look small and clean
 const people = require('./routes/people-controller');
 const auth = require('./routes/auth');
+const connectDB = require('./db/connect');
 
 //Static assets
 app.use(express.static('./public'))

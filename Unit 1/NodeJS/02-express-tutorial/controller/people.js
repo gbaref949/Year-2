@@ -9,17 +9,17 @@ const readPeople = (req,res) => {
 let length = people.length + 1
 const createPeople = (req,res) => {
     const {name,id} = req.body
-    let person = {id: length++, name:name}
-    
     if(!name){
         return res.status(400).json({data:[], success:false, msg:"Please enter a name"})
     }
 
-    res.status(201).json({success:true, data:[... people, person]})
+    let person = {id: length++, name:name}
+    people.push(person)
+    res.status(201).json({success:true, data:[people]})
 }
 
 //Post function for updating people
-const updatingPeople = (req,res) => {
+const updatePeople = (req,res) => {
     const {id} = req.params
     const {name} = req.body
     const person = people.find((person) => person.id === Number(id))
@@ -53,4 +53,4 @@ const deletePeople = (req, res) => {
     res.status(202).json({data:people, success:true})
 }
 
-module.exports = {createPeople: createPeople, readPeople, updatePeople, deletePeople}
+module.exports = {readPeople, createPeople, updatePeople, deletePeople}
