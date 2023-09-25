@@ -123,7 +123,11 @@ h4 {
 }
 
 h5 {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     font-size: 1.25rem;
+    
 }
 
 small,
@@ -195,6 +199,12 @@ button,
     box-shadow: var(--shadow-1);
     transition: var(--transition);
     text-transform: capitalize;
+}
+
+button,
+.editButtons,
+.deleteButtons {
+    margin-left: 1em;
 }
 
 button:hover,

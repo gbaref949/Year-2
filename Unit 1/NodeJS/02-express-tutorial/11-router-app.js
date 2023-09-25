@@ -3,7 +3,7 @@ require('dotenv').config()
 require('./db/connect')
 const app = express();
 //ur app.js should look small and clean
-const people = require('./routes/people-controller');
+const tasks = require('./routes/tasks-controller');
 const auth = require('./routes/auth');
 const connectDB = require('./db/connect');
 
@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended: false}))
 //parse json data
 app.use(express.json())
 //routes/router
-app.use('/api/people', people)//creating seperate routers for seperate purposes
+app.use('/api/tasks', tasks)//creating seperate routers for seperate purposes
 app.use('/login', auth)
 
 const initServer = async () => {//first thing we want it to do is connect to the server
