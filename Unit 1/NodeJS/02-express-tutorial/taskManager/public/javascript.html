@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./normalize.css">
     <link rel="stylesheet" href="./styles.css">
-    <title>Name Manager</title>
+    <title>Task Manager</title>
 </head>
 <body>
     <nav>
         <div class="nav-center">
-            <h5>Name Manager</h5>
+            <h5>Task Manager</h5>
             <div><a href="index.html">Regular</a>
                 <a href="javascript.html">JS</a>
             </div>
@@ -19,18 +19,27 @@
     <main>
         <section>
             <form>
-                <h3>People ADDER FORM</h3>
+                <h3>TASK MAKER/EDITER FORM</h3>
                 <div class="form-row">
-                    <label for="name">ENTER PEOPLE</label>
+                    <label for="name">Enter Tasks:</label>
                     <input type="text" name="name" id="name" class="form-input" autocomplete="false"/>
                     <small class="form-alert"></small>
                 </div>
-                <button type="submit" class="button submit-btn">Submit New People</button>
-            </form>    
-            <div class="result"></div>
+                <button type="submit" class="button submit-btn">Submit New Task</button>
+            </form>
+            
+            <div class="task-list">
+                <h3>List of Tasks</h3>
+                <div class="task-filter">
+                    <select id="filter">
+                        <option value="all">Filter Tasks:</option>
+                    </select>
+                </div>
+            </div>
+            <div class="task-items"></div>
+            <!-- The task will be added here -->
         </section>
     </main>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
