@@ -366,12 +366,6 @@ nav {
     text-transform: capitalize;
 }
 
-.result {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
 h5+h5 {
     margin-left: 1rem;
 }

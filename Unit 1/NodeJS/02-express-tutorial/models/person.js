@@ -12,7 +12,13 @@ const personSchema = new moongoose.Schema({
         type: Number,
         default: 5
     },//comma to contiue to add on to the Schema
-})
+    
+    // completed:{
+    //     type: Boolean,
+    //     default: false
+    // },
+})//{collection: "tasks"}
 
+//module.exports = moongoose.model('Task', TaskSchema)
 module.exports = moongoose.model('Person', personSchema)
 Model.find({completed: true})

@@ -100,6 +100,8 @@ const tasks = data.data;
         taskItem.appendChild(taskCheckbox);
         taskItem.appendChild(taskName);
         taskItem.appendChild(taskDescription);
+        taskItem.appendChild(editButton);
+        taskItem.appendChild(deleteButton);
         taskList.appendChild(taskItem);
     });
 
