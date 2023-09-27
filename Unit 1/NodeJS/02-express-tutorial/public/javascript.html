@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./normalize.css">
     <link rel="stylesheet" href="./styles.css">
-    <title>Traditional</title>
+    <title>Task Manager</title>
 </head>
 <body>
     <nav>
@@ -27,20 +27,16 @@
                 </div>
                 <button type="submit" class="button submit-btn">Submit New Task</button>
             </form>
-            <div class="result">
-                <h3>Task List</h3>
+            
+            <div class="task-list">
+                <h3>List of Tasks</h3>
                 <div class="task-filter">
-                    <label for="filter">Filter:</label>
                     <select id="filter">
-                        <option value="all">All Tasks</option>
-                        <option value="individual">Individual Tasks</option>
+                        <option value="all">Filter Tasks:</option>
                     </select>
                 </div>
-                <div class="task-items">
-                    <!-- Tasks will be dynamically added here -->
-                </div>
             </div>
-                
+            <div class="result"></div>
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
