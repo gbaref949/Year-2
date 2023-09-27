@@ -104,6 +104,7 @@ const fetchTasks = async () => {
   // formAlert.textContent = error.response.data.msg;
   }
 }
+fetchTasks(); //gets the tasks before it startes creating HTML elememts to fill with those tasks
 
 //function to edit the name
 const addTask = async (name) => {
@@ -169,7 +170,14 @@ const populateFilterDropdown = () => {
         dropdownOption.textContent = option;
         filterDropdown.appendChild(dropdownOption);
     });
-};
+}; populateFilterDropdown();
+
+
+//an event listener for filter dropdown change
+filterDropdown.addEventListener('change', () => {
+    const selectedFilter = filterDropdown.value;
+    //implemented filtering logic here based on the selected filter
+});
 
 //html submit form
 const btn = document.querySelector('.submit-btn');
@@ -193,6 +201,3 @@ btn.addEventListener('click', async (e) => {
   }
   input.value = '';
 }); //prevents default action of submitting and reloading form, we will handle the methods of submit and where it goes
-
-fetchTasks(); //gets the tasks before it startes creating HTML elememts to fill with those tasks
-populateFilterDropdown();
