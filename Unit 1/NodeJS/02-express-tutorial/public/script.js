@@ -109,10 +109,11 @@ fetchTasks(); //gets the tasks before it startes creating HTML elememts to fill 
 //function to edit the name
 const addTask = async (name) => {
     try {
-        const { data } = await axios.post('/api/tasks', { name });
-        fetchTasks();
-        taskInput.value = '';
-        formAlert.textContent = 'Task added successfully!';
+      const { data } = await axios.post('/api/tasks', { name });
+      tasks.push({ name, completed: false }); // Example: Push a new task object
+      taskInput.value = '';
+      formAlert.textContent = 'Task added successfully!';
+      fetchTasks(); // Fetch and update the task list
     } catch (error) {
         console.error(error);
         formAlert.textContent = 'Error adding task';
@@ -122,7 +123,9 @@ const addTask = async (name) => {
 //function to update task completion status
 const updateTask = async (id, taskName, completed) => {
     try {
-        const { data } = await axios.put(`/api/tasks/${id}`, { check: completed });
+        const { data } = await axios.put((`/api/tasks/${id}`))
+        // { check: completed });
+        tasks[index].completed = completed; // Example: Update the task object in 'tasks'
         taskName.style.textDecoration = completed ? 'line-through' : 'none';
         fetchTasks();
     } catch (error) {
@@ -201,3 +204,4 @@ btn.addEventListener('click', async (e) => {
   }
   input.value = '';
 }); //prevents default action of submitting and reloading form, we will handle the methods of submit and where it goes
+fetchTasks()
