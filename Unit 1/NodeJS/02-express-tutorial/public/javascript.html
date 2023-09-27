@@ -10,7 +10,7 @@
 <body>
     <nav>
         <div class="nav-center">
-            <h5>HTTP Methods</h5>
+            <h5>Task Manager</h5>
             <div><a href="index.html">Regular</a>
                 <a href="javascript.html">JS</a>
             </div>
@@ -21,14 +21,26 @@
             <form>
                 <h3>TASK MAKER/EDITER FORM</h3>
                 <div class="form-row">
-                    <label for="name">enter tasks</label>
+                    <label for="name">Enter Tasks:</label>
                     <input type="text" name="name" id="name" class="form-input" autocomplete="false"/>
                     <small class="form-alert"></small>
                 </div>
-                <button type="submit" class="button submit-btn">submit</button>
+                <button type="submit" class="button submit-btn">Submit New Task</button>
             </form>
-            <div class="result"></div>
+            <div class="result">
+                <h3>Task List</h3>
+                <div class="task-filter">
+                    <label for="filter">Filter:</label>
+                    <select id="filter">
+                        <option value="all">All Tasks</option>
+                        <option value="individual">Individual Tasks</option>
+                    </select>
+                </div>
+                <div class="task-items">
+                    <!-- Tasks will be dynamically added here -->
+                </div>
             </div>
+                
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>

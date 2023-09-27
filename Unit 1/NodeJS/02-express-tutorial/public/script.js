@@ -4,8 +4,6 @@ const editName = async (id, newTasks) => {
   try {
     const { data } = await axios.put(`/api/tasks/${id}`, { name: newTasks });
     fetchTasks();
-    // Put the edited name back into the input box
-    input.value = newTasks;
     // Notify the user of the change
     formAlert.textContent = `Task updated to: ${newTasks}, you can now added a new task`;
   } catch (error) {
@@ -44,43 +42,38 @@ const fetchTasks = async () => {
     // Add event listeners for edit and delete buttons
     const editButtons = document.querySelectorAll('.edit-btn');
     const deleteButtons = document.querySelectorAll('.delete-btn');
-    const dropDown = document.querySelector('.dropdown-btn');
-    const checkBox = document.querySelector('.checkbox-btn');
-
-    //add a dropdown menu that will let you select which task (id) to view or to view all task
-    // dropDown.forEach((button) => {
-    //   button.addEventListener('click', () => {
-        
-    //   });
-    // });
-
-    //use this https://www.javascripttutorial.net/javascript-dom/javascript-checkbox/
-    
-    //for the checkbox
-    //If completed, strike through all text on the task and darken the element that is completed
-    //If unchecked undo all changes above
-    // checkBox.forEach((button) => {
-    //   button.addEventListener('click', () => {
-    //     if (check === false){
-    //     text.style.display = "block";
-    //   } else {
-    //     text.style.display = "none";
-    //   }
-    //   });
-    // });
-
+  
     editButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const newTasks = prompt('Enter the new name:');//fix this so it doesn't make an alert prompt
-        if (newTasks !== null) {
+        const personDiv = button.closest('.person');
+        const h5Element = personDiv.querySelector('h5');
+        const currentName = h5Element.textContent;
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.value = currentName;
+
+        // Replace the <h5> element with the input for editing
+        h5Element.replaceWith(nameInput);
+
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        personDiv.appendChild(saveButton);
+
+        saveButton.addEventListener('click', async () => {
+          const newName = nameInput.value;
           const id = button.getAttribute('data-id');
-          editName(id, newTasks);
-        }
+          await editName(id, newName);
+
+          // Restore the edited name to the <h5> element
+          nameInput.replaceWith(h5Element);
+          h5Element.textContent = newName;
+
+          // Remove the "Save" button
+          saveButton.remove();
+        });
       });
     });
-
-    // editButtons.style.display = "text-decoration: line-through"
-    // eleteButtons.style.display = "text-decoration: line-through"
 
     deleteButtons.forEach((button) => {
       button.addEventListener('click', () => {

@@ -19,7 +19,7 @@ const createTasks = (req,res) => {
     res.status(201).json({success:true, data:[tasks]})
 }
 
-//Post function for updating tasks
+//post function for updating tasks
 const updateTasks = (req,res) => {
     const {id} = req.params
     const {name} = req.body
@@ -38,6 +38,7 @@ const updateTasks = (req,res) => {
 
     res.status(202).json({data:newTasks, success:true})
 }
+
 //post function for deleting tasks
 const deleteTasks = (req, res) => {
     const {id} = req.params
