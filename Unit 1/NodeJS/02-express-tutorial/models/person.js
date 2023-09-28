@@ -1,7 +1,7 @@
 const moongoose = require('mongoose');
 
 const personSchema = new moongoose.Schema({
-    name:{
+    FirstName:{
         type: String,
         required: [true, 'Must provided a name'],
         trim:true,
