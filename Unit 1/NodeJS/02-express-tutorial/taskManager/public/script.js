@@ -1,12 +1,13 @@
-//this will excute on the client side not the browser
+// Variables for HTML elements
 const taskForm = document.querySelector('form');
 const taskInput = document.getElementById('name');
 const taskList = document.querySelector('.task-items');
+const formAlert = document.querySelector('.form-alert');
 const filterDropdown = document.getElementById('filter');
 
 // Function to fetch tasks from the server
 const fetchTasks = async () => {
-  try {
+    try {
         const { data } = await axios.get('/api/tasks');
         const tasks = data.data;
 
@@ -52,7 +53,7 @@ const fetchTasks = async () => {
 
             taskList.appendChild(taskItem);
         });
-        } catch (error) {
+    } catch (error) {
         console.error(error);
     }
 };
@@ -60,7 +61,7 @@ const fetchTasks = async () => {
 // Function to add a new task
 const addTask = async (name) => {
     try {
-      const { data } = await axios.post('/api/tasks', { name });
+        const { data } = await axios.post('/api/tasks', { name });
         fetchTasks();
         taskInput.value = '';
         formAlert.textContent = 'Task added successfully!';
@@ -79,7 +80,7 @@ const updateTask = async (id, taskName, completed) => {
     } catch (error) {
         console.error(error);
     }
-}
+};
 
 // Function to delete a task
 const deleteTask = async (id) => {
@@ -94,7 +95,7 @@ const deleteTask = async (id) => {
 };
 
 // Event listener for task form submission
-taskForm.addEventListener('submit', (e) => {
+taskForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const taskName = taskInput.value.trim();
     if (taskName !== '') {
@@ -102,46 +103,11 @@ taskForm.addEventListener('submit', (e) => {
     }
 });
 
-// Populate the filter dropdown with options
-const populateFilterDropdown = () => {
-    const filterOptions = ['All Tasks', 'Completed Tasks', 'Incomplete Tasks'];
-    filterOptions.forEach((option) => {
-        const dropdownOption = document.createElement('option');
-        dropdownOption.value = option.toLowerCase().replace(' ', '-');
-        dropdownOption.textContent = option;
-        filterDropdown.appendChild(dropdownOption);
-    });
-};
-
 // Event listener for filter dropdown change
 filterDropdown.addEventListener('change', () => {
     const selectedFilter = filterDropdown.value;
     // Implement filtering logic here based on the selected filter
 });
 
-//html submit form
-const btn = document.querySelector('.submit-btn');
-const input = document.querySelector('.form-input');
-const formAlert = document.querySelector('.form-alert');
-
-btn.addEventListener('click', async (e) => {
-  //if this wasn't here then when you hit submit it would load a blank page
-  e.preventDefault();
-  const nameValue = input.value;
-
-  try {
-    const { data } = await axios.post('/api/tasks', { name: nameValue });
-    const h5 = document.createElement('h5');
-    h5.textContent = data.person;
-    taskList.appendChild(h5);
-    fetchTasks();
-  } catch (error) {
-    //console.log(error.response)
-    formAlert.textContent = error.response.data.msg;
-  }
-  input.value = '';
-}); //prevents default action of submitting and reloading form, we will handle the methods of submit and where it goes
-
 // Call the fetchTasks function to load tasks on page load
 fetchTasks();
-populateFilterDropdown();
