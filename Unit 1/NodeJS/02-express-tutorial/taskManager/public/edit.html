@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./normalize.css">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Task EDITER</title>
+</head>
+<body>
+<nav>
+    <div class="nav-center">
+        <h5>Task Manager</h5>
+        <div><a href="index.html">Regular</a>
+            <a href="javascript.html">JS</a>
+            <a href="edit.html">Edit</a>
+        </div>
+    </div>
+</nav>
+    <main>
+        <section>
+            <form id="edit-form">
+                <h3>TASK EDITER FORM</h3>
+                <div class="form-row">
+                    <label for="name">Enter Tasks:</label>
+                    <input type="text" name="name" id="name" class="form-input" autocomplete="false" placeholder="Task name">
+                    <textarea name="details" placeholder="Task details"></textarea>
+                    <small class="form-alert"></small>
+                </div>
+                <button type="submit" class="button submit-btn">Save</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <script src="edit.js"></script>
+</body>
+</html>

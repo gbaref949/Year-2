@@ -40,12 +40,37 @@ const people = [
   { id: 5, name: 'emma' },
 ];
 
-const tasks= [
-  { id: 1, name: 'Dishes', details: 'For this task you are required to wash and dry the dishes', check: 'false' },
-  { id: 2, name: 'Takeout Trash', details: 'For this task you are required to get all the trash together and take it out to the garbage bin', check: 'false' },
-  { id: 3, name: 'Sweep and Mop', details: 'For this task you are required to Sweep throught the area then Mop', check: 'false' },
-  { id: 4, name: 'Wash the Clothes', details: 'For this task you are required to Wash and Dry the dirty lanudry', check: 'false' },
-  { id: 5, name: 'Clean Bedroom', details: 'For this task you are required to Clean the Bathroom', check: 'false' },
+const tasks = [
+  {
+    id: 1,
+    name: 'Dishes',
+    details: 'For this task you are required to wash and dry the dishes',
+    check: false,
+  },
+  {
+    id: 2,
+    name: 'Takeout Trash',
+    details:'For this task you are required to get all the trash together and take it out to the garbage bin',
+    check: false,
+  },
+  {
+    id: 3,
+    name: 'Sweep and Mop',
+    details: 'For this task you are required to Sweep throught the area then Mop',
+    check: false,
+  },
+  {
+    id: 4,
+    name: 'Wash the Clothes',
+    details: 'For this task you are required to Wash and Dry the dirty lanudry',
+    check: false,
+  },
+  {
+    id: 5,
+    name: 'Clean Bedroom',
+    details: 'For this task you are required to Clean the Bathroom',
+    check: false,
+  },
 ];
 
 module.exports = { products, people, tasks };

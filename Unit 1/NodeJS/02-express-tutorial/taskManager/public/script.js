@@ -1,113 +1,109 @@
-// Variables for HTML elements
-const taskForm = document.querySelector('form');
-const taskInput = document.getElementById('name');
-const taskList = document.querySelector('.task-items');
-const formAlert = document.querySelector('.form-alert');
-const filterDropdown = document.getElementById('filter');
+// Define an empty array to store tasks
+let tasks = [];
 
-// Function to fetch tasks from the server
-const fetchTasks = async () => {
-    try {
-        const { data } = await axios.get('/api/tasks');
-        const tasks = data.data;
+// Function to render tasks
+function renderTasks() {
+  const tasksContainer = document.getElementById('tasks');
+  tasksContainer.innerHTML = '';
 
-        // Clear the task list
-        taskList.innerHTML = '';
-
-        // Populate the task list
-        tasks.forEach((task) => {
-            const taskItem = document.createElement('div');
-            taskItem.classList.add('task-item');
-
-            // Create task name element
-            const taskName = document.createElement('h5');
-            taskName.textContent = task.name;
-
-            // Create task description element (shown on hover)
-            const taskDescription = document.createElement('p');
-            taskDescription.textContent = task.details;
-            taskDescription.classList.add('task-description');
-
-            // Create checkbox for completion
-            const taskCheckbox = document.createElement('input');
-            taskCheckbox.type = 'checkbox';
-            taskCheckbox.checked = task.check;
-            taskCheckbox.addEventListener('change', () => {
-                // Handle checkbox change (strikethrough and update task)
-                updateTask(task.id, taskName, taskCheckbox.checked);
-            });
-
-            // Create delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', () => {
-                // Handle delete button click
-                deleteTask(task.id);
-            });
-
-            // Append elements to task item
-            taskItem.appendChild(taskCheckbox);
-            taskItem.appendChild(taskName);
-            taskItem.appendChild(taskDescription);
-            taskItem.appendChild(deleteButton);
-
-            taskList.appendChild(taskItem);
-        });
-    } catch (error) {
-        console.error(error);
+  tasks.forEach((task) => {
+    const taskItem = document.createElement('div');
+    taskItem.classList.add('task-item');
+    if (task.completed) {
+      taskItem.classList.add('completed');
     }
-};
+
+    taskItem.innerHTML = `
+            <input type="checkbox" class="task-checkbox" data-id="${task.id}" ${
+      task.completed ? 'checked' : ''
+    }>
+            <span class="task-name">${task.name}</span>
+            <p class="task-details">${task.details}</p>
+            <button class="edit-btn" data-id="${task.id}">Edit</button>
+            <button class="delete-btn" data-id="${task.id}">Delete</button>
+        `;
+
+    tasksContainer.appendChild(taskItem);
+  });
+}
 
 // Function to add a new task
-const addTask = async (name) => {
-    try {
-        const { data } = await axios.post('/api/tasks', { name });
-        fetchTasks();
-        taskInput.value = '';
-        formAlert.textContent = 'Task added successfully!';
-    } catch (error) {
-        console.error(error);
-        formAlert.textContent = 'Error adding task';
-    }
-};
+function addTask(name, details) {
+  const id = tasks.length + 1;
+  const task = {
+    id,
+    name,
+    details,
+    completed: false,
+  };
 
-// Function to update task completion status
-const updateTask = async (id, taskName, completed) => {
-    try {
-        const { data } = await axios.put(`/api/tasks/${id}`, { check: completed });
-        taskName.style.textDecoration = completed ? 'line-through' : 'none';
-        fetchTasks();
-    } catch (error) {
-        console.error(error);
-    }
-};
+  tasks.push(task);
+  renderTasks();
+}
+
+// Function to edit a task
+function editTask(id, newName, newDetails) {
+  const taskIndex = tasks.findIndex((task) => task.id === id);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].name = newName;
+    tasks[taskIndex].details = newDetails;
+    renderTasks();
+  }
+}
 
 // Function to delete a task
-const deleteTask = async (id) => {
-    try {
-        if (confirm('Are you sure you want to delete this task?')) {
-            const { data } = await axios.delete(`/api/tasks/${id}`);
-            fetchTasks();
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
+function deleteTask(id) {
+  tasks = tasks.filter((task) => task.id !== id);
+  renderTasks();
+}
 
-// Event listener for task form submission
-taskForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const taskName = taskInput.value.trim();
-    if (taskName !== '') {
-        addTask(taskName);
-    }
+// Function to toggle task completion
+function toggleTaskCompletion(id) {
+  const taskIndex = tasks.findIndex((task) => task.id === id);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].completed = !tasks[taskIndex].completed;
+    renderTasks();
+  }
+}
+
+// Event listener for form submission
+const taskForm = document.getElementById('task-form');
+taskForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const taskNameInput = document.getElementById('task-name');
+  const taskDetailsInput = document.getElementById('task-details');
+  const taskName = taskNameInput.value.trim();
+  const taskDetails = taskDetailsInput.value.trim();
+  if (taskName !== '') {
+    addTask(taskName, taskDetails);
+    taskNameInput.value = '';
+    taskDetailsInput.value = '';
+  }
 });
 
-// Event listener for filter dropdown change
-filterDropdown.addEventListener('change', () => {
-    const selectedFilter = filterDropdown.value;
-    // Implement filtering logic here based on the selected filter
+// Event delegation for edit and delete buttons
+const tasksContainer = document.getElementById('tasks');
+tasksContainer.addEventListener('click', (e) => {
+  if (e.target.classList.contains('edit-btn')) {
+    const taskId = parseInt(e.target.getAttribute('data-id'));
+    const task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      const newName = prompt('Edit Task Name:', task.name);
+      const newDetails = prompt('Edit Task Details:', task.details);
+      if (newName !== null && newDetails !== null) {
+        editTask(taskId, newName, newDetails);
+      }
+    }
+  } else if (e.target.classList.contains('delete-btn')) {
+    const taskId = parseInt(e.target.getAttribute('data-id'));
+    if (confirm('Are you sure you want to delete this task?')) {
+      deleteTask(taskId);
+    }
+  } else if (e.target.classList.contains('task-checkbox')) {
+    const taskId = parseInt(e.target.getAttribute('data-id'));
+    toggleTaskCompletion(taskId);
+  }
 });
 
-// Call the fetchTasks function to load tasks on page load
-fetchTasks();
+// Initial rendering of tasks
+renderTasks();

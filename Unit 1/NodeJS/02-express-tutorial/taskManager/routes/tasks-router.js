@@ -5,9 +5,19 @@ const router = express.Router();
 
 let {tasks} = require('../data');
 
-router.get('/', (req, res) =>{
-    res.json({success: true, data:tasks})//gets tasks
-})
+router.get('/', (req, res) => {
+  res.json({ success: true, data: tasks }); //gets tasks
+});
+
+router.get('/edit', (req, res) => {
+  res.render('edit');
+});
+
+router.get('/api/tasks/:id', (req, res) => {
+  const { id } = req.params;
+  const task = tasks.find((t) => t.id === id);
+  res.json(task);
+});
 
 router.post('/', (req, res) =>{
     console.log(req.body)

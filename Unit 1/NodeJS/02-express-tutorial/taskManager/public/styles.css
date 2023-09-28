@@ -366,6 +366,16 @@ nav {
     text-transform: capitalize;
 }
 
+.task-checkbox:checked+h5::before {
+    content: '\2713';
+    /* Unicode checkmark character */
+    display: inline-block;
+    margin-right: 5px;
+    /* Adjust spacing as needed */
+    color: blue;
+    /* Change the color as desired */
+}
+
 h5+h5 {
     margin-left: 1rem;
 }
