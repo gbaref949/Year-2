@@ -11,17 +11,13 @@ const fetchTasks = async () => {
     console.log(data);
 
     const tasks = data.data.map((task) => {
-      // Add checkboxes for completion
-      const checkbox = task.check ? 'checked' : '';
-      const taskDetails = task.check ? 'completed' : '';
-
       return `
                 <div class="person">
                 <br>
-                    <h5 class="${taskDetails}">
+                    <h5 class="person">
                         ${task.name}
                     </h5>
-                    <p>${task.details}</p>
+                    <p class="details">${task.details}</p>
                     <button class="edit-btn" data-id="${task.id}">Edit</button>
                     <button class="delete-btn" data-id="${task.id}">Delete</button>
                 </div>
@@ -29,27 +25,6 @@ const fetchTasks = async () => {
     });
 
     taskList.innerHTML = tasks.join('');
-
-    const filterDropdown = document.getElementById('filter');
-
-    filterDropdown.addEventListener('change', () => {
-      const selectedOption = filterDropdown.value;
-      const taskItems = document.querySelectorAll('.person');
-
-      taskItems.forEach((taskItem) => {
-        const taskName = taskItem.querySelector('h5');
-        const isChecked = taskName.classList.contains('completed');
-
-        if (
-          (selectedOption === 'incomplete' && !isChecked) ||
-          selectedOption === 'all'
-        ) {
-          taskItem.style.display = 'block';
-        } else {
-          taskItem.style.display = 'none';
-        }
-      });
-    });
 
     //added query selectors for the edit and delete buttons
     const editButtons = document.querySelectorAll('.edit-btn');
@@ -99,27 +74,6 @@ const fetchTasks = async () => {
         }
       });
     });
-
-    // Add event listener for checkbox changes
-    const taskCheckboxes = document.querySelectorAll('.task-checkbox');
-    taskCheckboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', async (e) => {
-        const id = e.target.getAttribute('data-id');
-        const isChecked = e.target.checked;
-
-        // Get the corresponding task item
-        const taskItem = e.target.closest('.person');
-        const taskName = taskItem.querySelector('h5');
-
-        if (isChecked) {
-          taskName.classList.add('completed'); // Apply styles for completion
-        } else {
-          taskName.classList.remove('completed'); // Remove completion styles
-        }
-
-        await updateTaskCompletion(id, isChecked);
-      });
-    });
   } catch (error) {
     console.error(error);
     formAlert.textContent = error.response.data.msg;
@@ -136,20 +90,6 @@ const addTask = async (name) => {
   } catch (error) {
     console.error(error);
     formAlert.textContent = 'Error adding task';
-  }
-};
-
-// Function to update task completion
-const updateTaskCompletion = async (id, isChecked) => {
-  try {
-    const { data } = await axios.put(`/api/tasks/${id}`, { check: isChecked });
-    fetchTasks();
-    // Notify the user of the change
-    formAlert.textContent = isChecked
-      ? `Task marked as completed: ${data.name}`
-      : `Task marked as incomplete: ${data.name}`;
-  } catch (error) {
-    formAlert.textContent = error.response.data.msg;
   }
 };
 
