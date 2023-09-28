@@ -17,8 +17,8 @@ const personSchema = new moongoose.Schema({
     //     type: Boolean,
     //     default: false
     // },
-},{collection: "people"})
+},{collection: "Contacts"})
 
 //module.exports = moongoose.model('Task', TaskSchema)
-module.exports = moongoose.model('Person', personSchema)
+module.exports = moongoose.model('Contacts', personSchema)
 //Model.find({completed: true})//

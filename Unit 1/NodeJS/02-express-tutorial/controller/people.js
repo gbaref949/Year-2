@@ -1,9 +1,17 @@
-let {people} = require('../data')
+// let {people} = require('../data')
+const people = require('../models/person');
 
 //get people and returns them
-const readPeople = (req,res) => {
-    res.json({success: true, data:people})
+const readPeople = async (req,res) => {
+    // res.json({success: true, data:people})
+    try{
+    let answer = await people.find({})
+    console.log(answer)
+    res.json(answer)
+}catch(err){
 }
+}
+
 
 //post function for creating people
 let length = people.length + 1
