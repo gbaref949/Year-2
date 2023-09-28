@@ -2,8 +2,7 @@ let { tasks } = require('../data');
 
 //get tasks and returns them
 const readTasks = (req, res) => {
-  res.send(tasks);
-  let { tasks } = require('../data');
+  // res.send(tasks)
   res.json({ success: true, data: tasks });
 };
 
@@ -60,25 +59,9 @@ const deleteTasks = (req, res) => {
   res.status(202).json({ data: tasks, success: true });
 };
 
-// // Post function for updating task completion
-// const updateTaskCompletion = (req, res) => {
-//     const { id } = req.params;
-//     const { check } = req.body;
-//     const task = tasks.find((task) => task.id === Number(id));
-
-//     if (!task) {
-//         return res.status(404).json({ success: false, msg: 'No matching task found' });
-//     }
-
-//     task.check = check;
-
-//     res.status(202).json({ data: task, success: true });
-// };
-
 module.exports = {
   readTasks,
   createTasks,
   updateTasks,
   deleteTasks,
-  //   updateTaskCompletion,
 };

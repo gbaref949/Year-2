@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./normalize.css">
+    <link rel="stylesheet" href="./styles.css">
     <title>Task Manager</title>
 </head>
 
@@ -17,29 +18,32 @@
                 <a href="edit.html">Edit</a>
             </div>
         </div>
+
     </nav>
     <main>
         <section>
-            <form id="task-form">
-                <h3>Task Manager</h3>
+            <form>
+                <h3>TASK MAKER/EDITER FORM</h3>
                 <div class="form-row">
-                    <label for="task-name">Enter Task:</label>
-                    <input type="text" id="task-name" class="form-input" required>
+                    <label for="name">Enter Tasks:</label>
+                    <input type="text" name="name" id="name" class="form-input" autocomplete="false" />
+                    <small class="form-alert"></small>
                 </div>
-                <div class="form-row">
-                    <label for="task-details">Task Details:</label>
-                    <textarea id="task-details" class="form-input"></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Add Task</button>
+                <label for="filter">Filter Tasks:</label>
+                <select id="filter">
+                    <option value="all">All Tasks</option>
+                    <option value="incomplete">Incomplete Tasks</option>
+                </select>
+                <button type="submit" class="button submit-btn">Submit New Task</button>
             </form>
-            <div class="task-list">
-                <h3>Tasks</h3>
-                <div id="tasks">
-                    <!-- Task items will be dynamically added here -->
-                </div>
+            <div class="result">
+                <div class="task-items"></div>
             </div>
         </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 

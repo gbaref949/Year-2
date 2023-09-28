@@ -20,16 +20,19 @@
 </nav>
     <main>
         <section>
-            <form id="edit-form">
+            <form>
                 <h3>TASK EDITER FORM</h3>
                 <div class="form-row">
                     <label for="name">Enter Tasks:</label>
-                    <input type="text" name="name" id="name" class="form-input" autocomplete="false" placeholder="Task name">
+                    <input type="text" name="name" id="name" class="form-input" autocomplete="false">
                     <textarea name="details" placeholder="Task details"></textarea>
                     <small class="form-alert"></small>
                 </div>
-                <button type="submit" class="button submit-btn">Save</button>
+                <button type="submit" class="button submit-btn">Submit New Task</button>
             </form>
+            <div class="result">
+                <div class="task-items"></div>
+            </div>
         </section>
     </main>
 

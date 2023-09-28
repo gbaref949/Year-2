@@ -1,109 +1,200 @@
-// Define an empty array to store tasks
-let tasks = [];
+// Variables for HTML elements
+const taskForm = document.querySelector('form');
+const taskInput = document.getElementById('name');
+const taskList = document.querySelector('.task-items');
+const filterDropdown = document.getElementById('filter');
 
-// Function to render tasks
-function renderTasks() {
-  const tasksContainer = document.getElementById('tasks');
-  tasksContainer.innerHTML = '';
+// Function to fetch tasks from the server
+const fetchTasks = async () => {
+  try {
+    const { data } = await axios.get('/api/tasks');
+    console.log(data);
 
-  tasks.forEach((task) => {
-    const taskItem = document.createElement('div');
-    taskItem.classList.add('task-item');
-    if (task.completed) {
-      taskItem.classList.add('completed');
-    }
+    const tasks = data.data.map((task) => {
+      // Add checkboxes for completion
+      const checkbox = task.check ? 'checked' : '';
+      const taskDetails = task.check ? 'completed' : '';
 
-    taskItem.innerHTML = `
-            <input type="checkbox" class="task-checkbox" data-id="${task.id}" ${
-      task.completed ? 'checked' : ''
-    }>
-            <span class="task-name">${task.name}</span>
-            <p class="task-details">${task.details}</p>
-            <button class="edit-btn" data-id="${task.id}">Edit</button>
-            <button class="delete-btn" data-id="${task.id}">Delete</button>
-        `;
+      return `
+                <div class="person">
+                    <h5 class="${taskDetails}">
+                        <input type="checkbox" ${checkbox} class="task-checkbox" data-id="${task.id}">
+                        ${task.name}
+                    </h5>
+                    <p>${task.details}</p>
+                    <button class="edit-btn" data-id="${task.id}">Edit</button>
+                    <button class="delete-btn" data-id="${task.id}">Delete</button>
+                </div>
+            `;
+    });
 
-    tasksContainer.appendChild(taskItem);
-  });
-}
+    taskList.innerHTML = tasks.join('');
+
+    const filterDropdown = document.getElementById('filter');
+
+    filterDropdown.addEventListener('change', () => {
+      const selectedOption = filterDropdown.value;
+      const taskItems = document.querySelectorAll('.person');
+
+      taskItems.forEach((taskItem) => {
+        const taskName = taskItem.querySelector('h5');
+        const isChecked = taskName.classList.contains('completed');
+
+        if (
+          (selectedOption === 'incomplete' && !isChecked) ||
+          selectedOption === 'all'
+        ) {
+          taskItem.style.display = 'block';
+        } else {
+          taskItem.style.display = 'none';
+        }
+      });
+    });
+
+    //added query selectors for the edit and delete buttons
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    //created an edit button for each arrow function
+    editButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const personDiv = button.closest('.person');
+        const h5Element = personDiv.querySelector('h5');
+        const currentName = h5Element.textContent;
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.value = currentName;
+
+        //replaced the <h5> element with the input for editing
+        h5Element.replaceWith(nameInput);
+
+        //added query selector for the save button
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        personDiv.appendChild(saveButton);
+
+        //allows the users to directly change the task intead of doing it in the input box and saving there postions
+        saveButton.addEventListener('click', async () => {
+          const newName = nameInput.value;
+          const id = button.getAttribute('data-id');
+          await editName(id, newName);
+
+          //restored the edited name to the <h5> element
+          nameInput.replaceWith(h5Element);
+          h5Element.textContent = newName;
+
+          //and removed the "Save" button so it doesn't appear in the normal task modifier only when you want to edit things
+          saveButton.remove();
+        });
+      });
+    });
+
+    //created an delete button for each arrow function that will delete the tasks
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const id = button.getAttribute('data-id');
+        if (confirm('Are you sure you want to delete this name?')) {
+          deleteTask(id);
+        }
+      });
+    });
+
+    // Add event listener for checkbox changes
+    const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+    taskCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', async (e) => {
+        const id = e.target.getAttribute('data-id');
+        const isChecked = e.target.checked;
+
+        // Get the corresponding task item
+        const taskItem = e.target.closest('.person');
+        const taskName = taskItem.querySelector('h5');
+
+        if (isChecked) {
+          taskName.classList.add('completed'); // Apply styles for completion
+        } else {
+          taskName.classList.remove('completed'); // Remove completion styles
+        }
+
+        await updateTaskCompletion(id, isChecked);
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    formAlert.textContent = error.response.data.msg;
+  }
+};
 
 // Function to add a new task
-function addTask(name, details) {
-  const id = tasks.length + 1;
-  const task = {
-    id,
-    name,
-    details,
-    completed: false,
-  };
-
-  tasks.push(task);
-  renderTasks();
-}
-
-// Function to edit a task
-function editTask(id, newName, newDetails) {
-  const taskIndex = tasks.findIndex((task) => task.id === id);
-  if (taskIndex !== -1) {
-    tasks[taskIndex].name = newName;
-    tasks[taskIndex].details = newDetails;
-    renderTasks();
+const addTask = async (name) => {
+  try {
+    const { data } = await axios.post('/api/tasks', { name });
+    fetchTasks();
+    taskInput.value = '';
+    formAlert.textContent = 'Task added successfully!';
+  } catch (error) {
+    console.error(error);
+    formAlert.textContent = 'Error adding task';
   }
-}
+};
 
-// Function to delete a task
-function deleteTask(id) {
-  tasks = tasks.filter((task) => task.id !== id);
-  renderTasks();
-}
-
-// Function to toggle task completion
-function toggleTaskCompletion(id) {
-  const taskIndex = tasks.findIndex((task) => task.id === id);
-  if (taskIndex !== -1) {
-    tasks[taskIndex].completed = !tasks[taskIndex].completed;
-    renderTasks();
+// Function to update task completion
+const updateTaskCompletion = async (id, isChecked) => {
+  try {
+    const { data } = await axios.put(`/api/tasks/${id}`, { check: isChecked });
+    fetchTasks();
+    // Notify the user of the change
+    formAlert.textContent = isChecked
+      ? `Task marked as completed: ${data.name}`
+      : `Task marked as incomplete: ${data.name}`;
+  } catch (error) {
+    formAlert.textContent = error.response.data.msg;
   }
-}
+};
 
-// Event listener for form submission
-const taskForm = document.getElementById('task-form');
-taskForm.addEventListener('submit', (e) => {
+//function to edit the name
+const editName = async (id, newTasks) => {
+  try {
+    const { data } = await axios.put(`/api/tasks/${id}`, { name: newTasks });
+    fetchTasks();
+    //notify the user of the change
+    formAlert.textContent = `Task updated to: ${newTasks}, you can now added a new task`;
+  } catch (error) {
+    formAlert.textContent = error.response.data.msg;
+  }
+};
+
+//function to delete the name
+const deleteTask = async (id) => {
+  try {
+    const { data } = await axios.delete(`/api/tasks/${id}`);
+    fetchTasks();
+  } catch (error) {
+    formAlert.textContent = error.response.data.msg;
+  }
+};
+
+//html submit form
+const btn = document.querySelector('.submit-btn');
+const input = document.querySelector('.form-input');
+const formAlert = document.querySelector('.form-alert');
+
+btn.addEventListener('click', async (e) => {
+  //if this wasn't here then when you hit submit it would load a blank page
   e.preventDefault();
-  const taskNameInput = document.getElementById('task-name');
-  const taskDetailsInput = document.getElementById('task-details');
-  const taskName = taskNameInput.value.trim();
-  const taskDetails = taskDetailsInput.value.trim();
-  if (taskName !== '') {
-    addTask(taskName, taskDetails);
-    taskNameInput.value = '';
-    taskDetailsInput.value = '';
-  }
-});
+  const nameValue = input.value;
 
-// Event delegation for edit and delete buttons
-const tasksContainer = document.getElementById('tasks');
-tasksContainer.addEventListener('click', (e) => {
-  if (e.target.classList.contains('edit-btn')) {
-    const taskId = parseInt(e.target.getAttribute('data-id'));
-    const task = tasks.find((t) => t.id === taskId);
-    if (task) {
-      const newName = prompt('Edit Task Name:', task.name);
-      const newDetails = prompt('Edit Task Details:', task.details);
-      if (newName !== null && newDetails !== null) {
-        editTask(taskId, newName, newDetails);
-      }
-    }
-  } else if (e.target.classList.contains('delete-btn')) {
-    const taskId = parseInt(e.target.getAttribute('data-id'));
-    if (confirm('Are you sure you want to delete this task?')) {
-      deleteTask(taskId);
-    }
-  } else if (e.target.classList.contains('task-checkbox')) {
-    const taskId = parseInt(e.target.getAttribute('data-id'));
-    toggleTaskCompletion(taskId);
+  try {
+    const { data } = await axios.post('/api/tasks', { name: nameValue });
+    const h5 = document.createElement('h5');
+    h5.textContent = data.person;
+    taskList.appendChild(h5);
+    fetchTasks();
+  } catch (error) {
+    //console.log(error.response)
+    formAlert.textContent = error.response.data.msg;
   }
-});
-
-// Initial rendering of tasks
-renderTasks();
+  input.value = '';
+}); //prevents default action of submitting and reloading form, we will handle the methods of submit and where it goes
+fetchTasks();

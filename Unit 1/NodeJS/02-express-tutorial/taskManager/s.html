@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Task Manager</title>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-center">
+            <h5>Task Manager</h5>
+        </div>
+    </nav>
+    <main>
+        <section>
+            <form id="task-form">
+                <h3>Task Manager</h3>
+                <div class="form-row">
+                    <label for="task-name">Enter Task:</label>
+                    <input type="text" id="task-name" class="form-input" required>
+                </div>
+                <div class="form-row">
+                    <label for="task-details">Task Details:</label>
+                    <textarea id="task-details" class="form-input"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Add Task</button>
+            </form>
+            <div class="task-list">
+                <h3>Tasks</h3>
+                <div id="tasks">
+                    <!-- Task items will be dynamically added here -->
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./normalize.css">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Task Manager</title>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-center">
+            <h5>Task Manager</h5>
+            <div><a href="index.html">Regular</a>
+                <a href="javascript.html">JS</a>
+                <a href="edit.html">Edit</a>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <section>
+            <div class="container">
+                <form id="task-form">
+                    <h3>Task Manager</h3>
+                    <label for="name">Enter Tasks:</label>
+                    <input type="text" id="task-name" placeholder="Enter a task">
+                    <br>
+                    <br>
+                    <small class="form-alert"></small>
+                    <button type="submit" class="button submit-btn">Submit New Task</button>
+                </form>
+                <div id="task-list"></div>
+                <div>
+                    <label for="filter">Filter Tasks:</label>
+                    <select id="filter">
+                        <option value="all">All Tasks</option>
+                        <option value="incomplete">Incomplete Tasks</option>
+                    </select>
+                </div>
+                <div class="result">
+                    <div class="task-items"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+
+</html> -->
