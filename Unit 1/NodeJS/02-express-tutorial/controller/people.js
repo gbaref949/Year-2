@@ -9,6 +9,7 @@ const readPeople = async (req,res) => {
     console.log(answer)
     res.json(answer)
 }catch(err){
+    console.log(err)
 }
 }
 
