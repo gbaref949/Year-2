@@ -364,8 +364,6 @@ nav {
 }
 
 .task-checkbox:checked+h5::before {
-    content: '\2713';
-    /* Unicode checkmark character */
     display: inline-block;
     margin-right: 5px;
     /* Adjust spacing as needed */

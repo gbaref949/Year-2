@@ -1,52 +1,60 @@
-// Variables for HTML elements
+//variables for HTML elements
 const taskForm = document.querySelector('form');
 const taskInput = document.getElementById('name');
 const taskList = document.querySelector('.task-items');
 const filterDropdown = document.getElementById('filter');
 
-// Function to fetch tasks from the server
-const fetchTasks = async () => {
+//function to fetch tasks from the server
+//updated fetchTasks function
+const fetchTasks = async (filter = 'all') => {
   try {
     const { data } = await axios.get('/api/tasks');
     console.log(data);
 
-    const tasks = data.data.map((task) => {
-      // Add checkboxes for completion
-      const checkbox = task.check ? 'checked' : '';
-      const taskDetails = task.check ? 'completed' : '';
+    //filter tasks based on the selected option
+    const filteredTasks = data.data.filter((task) => {
+      if (filter === 'all') {
+        return true; //show all tasks
+      } else if (filter === 'incomplete') {
+        return !task.check; //show only incomplete tasks
+      }
+    });
 
+    const tasks = filteredTasks.map((task) => {
       return `
-                <div class="person">
-                    <h5 class="${taskDetails}">
-                        <input type="checkbox" ${checkbox} class="task-checkbox" data-id="${task.id}">
-                        ${task.name}
-                    </h5>
-                    <p>${task.details}</p>
-                    <button class="edit-btn" data-id="${task.id}">Edit</button>
-                    <button class="delete-btn" data-id="${task.id}">Delete</button>
-                </div>
-            `;
+        <div class="task">
+          <input type="checkbox" class="task-checkbox" data-id="${task.id}" ${
+        task.check ? 'checked' : ''
+      }>
+          <h5 class="person${task.check ? ' completed' : ''}">${task.name}</h5>
+          <p class="details">${task.details}</p>
+          <button class="edit-btn" data-id="${task.id}">Edit</button>
+          <button class="delete-btn" data-id="${task.id}">Delete</button>
+        </div>
+        <br>
+      `;
     });
 
     taskList.innerHTML = tasks.join('');
 
-    const filterDropdown = document.getElementById('filter');
+    const taskCheckboxes = document.querySelectorAll('.task-checkbox');
 
-    filterDropdown.addEventListener('change', () => {
-      const selectedOption = filterDropdown.value;
-      const taskItems = document.querySelectorAll('.person');
+    taskCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', async () => {
+        const id = checkbox.getAttribute('data-id');
+        const isChecked = checkbox.checked;
 
-      taskItems.forEach((taskItem) => {
-        const taskName = taskItem.querySelector('h5');
-        const isChecked = taskName.classList.contains('completed');
+        //get the corresponding <h5> element for the task
+        const h5Element = checkbox.nextElementSibling.nextElementSibling;
 
-        if (
-          (selectedOption === 'incomplete' && !isChecked) ||
-          selectedOption === 'all'
-        ) {
-          taskItem.style.display = 'block';
+        //update the server to mark the task as completed or undone
+        await updateTaskCompletion(id, isChecked);
+
+        //apply styles based on the checkbox state
+        if (isChecked) {
+          h5Element.classList.add('completed');
         } else {
-          taskItem.style.display = 'none';
+          h5Element.classList.remove('completed');
         }
       });
     });
@@ -54,11 +62,14 @@ const fetchTasks = async () => {
     //added query selectors for the edit and delete buttons
     const editButtons = document.querySelectorAll('.edit-btn');
     const deleteButtons = document.querySelectorAll('.delete-btn');
+    let personDiv;
 
     //created an edit button for each arrow function
     editButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const personDiv = button.closest('.person');
+        //update personDiv here
+        personDiv = button.closest('.task');
+
         const h5Element = personDiv.querySelector('h5');
         const currentName = h5Element.textContent;
 
@@ -77,14 +88,17 @@ const fetchTasks = async () => {
         //allows the users to directly change the task intead of doing it in the input box and saving there postions
         saveButton.addEventListener('click', async () => {
           const newName = nameInput.value;
+          const detailsElement = personDiv.querySelector('.details');
+          //get existing details
+          const newDetails = detailsElement ? detailsElement.textContent : ''; //get existing details or use an empty string if not found
           const id = button.getAttribute('data-id');
-          await editName(id, newName);
+          await editName(id, newName, newDetails); //pass 'newDetails' to editName
 
           //restored the edited name to the <h5> element
           nameInput.replaceWith(h5Element);
           h5Element.textContent = newName;
 
-          //and removed the "Save" button so it doesn't appear in the normal task modifier only when you want to edit things
+          //removed the "Save" button so it doesn't appear in the normal task modifier, only when you want to edit things
           saveButton.remove();
         });
       });
@@ -99,39 +113,28 @@ const fetchTasks = async () => {
         }
       });
     });
-
-    // Add event listener for checkbox changes
-    const taskCheckboxes = document.querySelectorAll('.task-checkbox');
-    taskCheckboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', async (e) => {
-        const id = e.target.getAttribute('data-id');
-        const isChecked = e.target.checked;
-
-        // Get the corresponding task item
-        const taskItem = e.target.closest('.person');
-        const taskName = taskItem.querySelector('h5');
-
-        if (isChecked) {
-          taskName.classList.add('completed'); // Apply styles for completion
-        } else {
-          taskName.classList.remove('completed'); // Remove completion styles
-        }
-
-        await updateTaskCompletion(id, isChecked);
-      });
-    });
   } catch (error) {
     console.error(error);
     formAlert.textContent = error.response.data.msg;
   }
 };
 
-// Function to add a new task
-const addTask = async (name) => {
+//event listener for filtering tasks
+filterDropdown.addEventListener('change', () => {
+  //get the selected filter option
+  const selectedFilter = filterDropdown.value;
+  fetchTasks(selectedFilter); //pass the selected filter to fetchTasks
+});
+
+//function to add a new task
+const addTask = async (name, details) => {
+  //accept 'details' as an argument
   try {
-    const { data } = await axios.post('/api/tasks', { name });
+    const { data } = await axios.post('/api/tasks', { name, details }); //include 'details' in the POST request
     fetchTasks();
     taskInput.value = '';
+    //clear the details input field as well
+    document.getElementById('details').value = '';
     formAlert.textContent = 'Task added successfully!';
   } catch (error) {
     console.error(error);
@@ -139,27 +142,26 @@ const addTask = async (name) => {
   }
 };
 
-// Function to update task completion
+//function to update task completion status
 const updateTaskCompletion = async (id, isChecked) => {
   try {
-    const { data } = await axios.put(`/api/tasks/${id}`, { check: isChecked });
-    fetchTasks();
-    // Notify the user of the change
-    formAlert.textContent = isChecked
-      ? `Task marked as completed: ${data.name}`
-      : `Task marked as incomplete: ${data.name}`;
+    //send a PUT request to update the task's completion status on the server
+    await axios.put(`/api/tasks/${id}/completion`, { completed: isChecked });
   } catch (error) {
-    formAlert.textContent = error.response.data.msg;
+    console.error(error);
   }
 };
 
 //function to edit the name
-const editName = async (id, newTasks) => {
+const editName = async (id, newName, newDetails) => {
   try {
-    const { data } = await axios.put(`/api/tasks/${id}`, { name: newTasks });
+    const { data } = await axios.put(`/api/tasks/${id}`, {
+      name: newName,
+      details: newDetails,
+    }); //include 'details' in the PUT request
     fetchTasks();
     //notify the user of the change
-    formAlert.textContent = `Task updated to: ${newTasks}, you can now added a new task`;
+    formAlert.textContent = `Task updated to: ${newName}, you can now add a new task`;
   } catch (error) {
     formAlert.textContent = error.response.data.msg;
   }
@@ -184,12 +186,10 @@ btn.addEventListener('click', async (e) => {
   //if this wasn't here then when you hit submit it would load a blank page
   e.preventDefault();
   const nameValue = input.value;
+  const detailsValue = document.getElementById('details').value; //get details input value
 
   try {
-    const { data } = await axios.post('/api/tasks', { name: nameValue });
-    const h5 = document.createElement('h5');
-    h5.textContent = data.person;
-    taskList.appendChild(h5);
+    await addTask(nameValue, detailsValue); //pass 'detailsValue' to addTask
     fetchTasks();
   } catch (error) {
     //console.log(error.response)
@@ -197,4 +197,5 @@ btn.addEventListener('click', async (e) => {
   }
   input.value = '';
 }); //prevents default action of submitting and reloading form, we will handle the methods of submit and where it goes
+
 fetchTasks();

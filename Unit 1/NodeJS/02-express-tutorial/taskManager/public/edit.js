@@ -1,10 +1,10 @@
-// Variables for HTML elements
+//variables for HTML elements
 const taskForm = document.querySelector('form');
 const taskInput = document.getElementById('name');
 const taskList = document.querySelector('.task-items');
 const filterDropdown = document.getElementById('filter');
 
-// Function to fetch tasks from the server
+//function to fetch tasks from the server
 const fetchTasks = async () => {
   try {
     const { data } = await axios.get('/api/tasks');
@@ -17,10 +17,11 @@ const fetchTasks = async () => {
                     <h5 class="person">
                         ${task.name}
                     </h5>
-                    <p class="details">${task.details}</p>
+                    <p id="details">${task.details}</p>
                     <button class="edit-btn" data-id="${task.id}">Edit</button>
                     <button class="delete-btn" data-id="${task.id}">Delete</button>
                 </div>
+                <br>
             `;
     });
 
@@ -29,11 +30,14 @@ const fetchTasks = async () => {
     //added query selectors for the edit and delete buttons
     const editButtons = document.querySelectorAll('.edit-btn');
     const deleteButtons = document.querySelectorAll('.delete-btn');
+    personDiv.appendChild(saveButton);
 
     //created an edit button for each arrow function
     editButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const personDiv = button.closest('.person');
+        //update personDiv here
+        personDiv = button.closest('.task');
+
         const h5Element = personDiv.querySelector('h5');
         const currentName = h5Element.textContent;
 
@@ -52,14 +56,17 @@ const fetchTasks = async () => {
         //allows the users to directly change the task intead of doing it in the input box and saving there postions
         saveButton.addEventListener('click', async () => {
           const newName = nameInput.value;
+          const detailsElement = personDiv.querySelector('.details');
+          //get existing details
+          const newDetails = detailsElement ? detailsElement.textContent : ''; //get existing details or use an empty string if not found
           const id = button.getAttribute('data-id');
-          await editName(id, newName);
+          await editName(id, newName, newDetails); //pass 'newDetails' to editName
 
           //restored the edited name to the <h5> element
           nameInput.replaceWith(h5Element);
           h5Element.textContent = newName;
 
-          //and removed the "Save" button so it doesn't appear in the normal task modifier only when you want to edit things
+          //removed the "Save" button so it doesn't appear in the normal task modifier, only when you want to edit things
           saveButton.remove();
         });
       });
@@ -80,12 +87,15 @@ const fetchTasks = async () => {
   }
 };
 
-// Function to add a new task
-const addTask = async (name) => {
+//function to add a new task
+const addTask = async (name, details) => {
+  //accept 'details' as an argument
   try {
-    const { data } = await axios.post('/api/tasks', { name });
+    const { data } = await axios.post('/api/tasks', { name, details }); //include 'details' in the POST request
     fetchTasks();
     taskInput.value = '';
+    //clear the details input field as well
+    document.getElementById('details').value = '';
     formAlert.textContent = 'Task added successfully!';
   } catch (error) {
     console.error(error);
@@ -94,12 +104,15 @@ const addTask = async (name) => {
 };
 
 //function to edit the name
-const editName = async (id, newTasks) => {
+const editName = async (id, newName, newDetails) => {
   try {
-    const { data } = await axios.put(`/api/tasks/${id}`, { name: newTasks });
+    const { data } = await axios.put(`/api/tasks/${id}`, {
+      name: newName,
+      details: newDetails,
+    }); //include 'details' in the PUT request
     fetchTasks();
     //notify the user of the change
-    formAlert.textContent = `Task updated to: ${newTasks}, you can now added a new task`;
+    formAlert.textContent = `Task updated to: ${newName}, you can now add a new task`;
   } catch (error) {
     formAlert.textContent = error.response.data.msg;
   }
@@ -124,8 +137,10 @@ btn.addEventListener('click', async (e) => {
   //if this wasn't here then when you hit submit it would load a blank page
   e.preventDefault();
   const nameValue = input.value;
+  const detailsValue = document.getElementById('details').value; //get details input value
 
   try {
+    await addTask(nameValue, detailsValue); //pass 'detailsValue' to addTask
     const { data } = await axios.post('/api/tasks', { name: nameValue });
     const h5 = document.createElement('h5');
     h5.textContent = data.person;
