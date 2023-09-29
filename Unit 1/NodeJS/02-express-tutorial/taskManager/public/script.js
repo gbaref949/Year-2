@@ -4,7 +4,6 @@ const taskInput = document.getElementById('name');
 const taskList = document.querySelector('.task-items');
 const filterDropdown = document.getElementById('filter');
 
-//function to fetch tasks from the server
 //updated fetchTasks function
 const fetchTasks = async (filter = 'all') => {
   try {

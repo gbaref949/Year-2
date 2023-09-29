@@ -12,17 +12,14 @@ const fetchTasks = async () => {
 
     const tasks = data.data.map((task) => {
       return `
-                <div class="person">
-                <br>
-                    <h5 class="person">
-                        ${task.name}
-                    </h5>
-                    <p id="details">${task.details}</p>
-                    <button class="edit-btn" data-id="${task.id}">Edit</button>
-                    <button class="delete-btn" data-id="${task.id}">Delete</button>
-                </div>
-                <br>
-            `;
+        <div class="task">
+          <h5 class="person">${task.name}</h5>
+          <p class="details">${task.details}</p>
+          <button class="edit-btn" data-id="${task.id}">Edit</button>
+          <button class="delete-btn" data-id="${task.id}">Delete</button>
+        </div>
+        <br>
+      `;
     });
 
     taskList.innerHTML = tasks.join('');
@@ -30,8 +27,8 @@ const fetchTasks = async () => {
     //added query selectors for the edit and delete buttons
     const editButtons = document.querySelectorAll('.edit-btn');
     const deleteButtons = document.querySelectorAll('.delete-btn');
-    personDiv.appendChild(saveButton);
 
+    let personDiv;
     //created an edit button for each arrow function
     editButtons.forEach((button) => {
       button.addEventListener('click', () => {
