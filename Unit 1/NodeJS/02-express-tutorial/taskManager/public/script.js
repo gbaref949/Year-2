@@ -44,7 +44,7 @@ const fetchTasks = async (filter = 'all') => {
         const isChecked = checkbox.checked;
 
         //get the corresponding <h5> element for the task
-        const h5Element = checkbox.nextElementSibling.nextElementSibling;
+        const h5Element = checkbox.nextElementSibling;
 
         //update the server to mark the task as completed or undone
         await updateTaskCompletion(id, isChecked);
