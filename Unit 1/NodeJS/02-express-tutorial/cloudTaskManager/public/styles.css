@@ -363,6 +363,13 @@ nav {
     text-transform: capitalize;
 }
 
+.completed {
+    text-decoration: line-through;
+    /* Add strike-through for completed tasks */
+    color: var(--grey-700);
+    /* Darken the text color for completed tasks */
+}
+
 .task-checkbox:checked+h5::before {
     display: inline-block;
     margin-right: 5px;
