@@ -23,7 +23,7 @@ const createUsers = async (req, res) => {
 
 const readTasks = async (req, res) => {
   //   res.send(tasks)
-  res.json({ success: true, Task: taskSchema });
+  res.json({ success: true, task: taskSchema });
   try {
     const tasks = await Task.find();
     res.json(tasks);
@@ -33,21 +33,21 @@ const readTasks = async (req, res) => {
 };
 
 //post function for creating tasks
-let length = Task.length + 1;
+let length = tasks.length + 1;
 const createTasks = async (req, res) => {
   const { name, details } = req.body;
   if (!name) {
     return res
       .status(400)
-      .json({ Task: [], success: false, msg: 'Please enter your name' });
+      .json({ data: [], success: false, msg: 'Please enter your name' });
   }
   if (!details) {
-    return res.status(400).json({ Task: [], success: false });
+    return res.status(400).json({ data: [], success: false });
   }
 
   let person = { id: length++, name: name, details: details };
-  Task.push(person);
-  res.status(201).json({ success: true, Task: [taskSchema] });
+  tasks.push(person);
+  res.status(201).json({ success: true, data: [tasks] });
 
   try {
     const newTask = new Task(req.body);
@@ -63,13 +63,13 @@ const updateTasks = async (req, res) => {
   const { check } = req.params;
   const { name } = req.body;
   const { details } = req.body;
-  const person = Task.find((person) => person.id === Number(id));
+  const person = tasks.find((person) => person.id === Number(id));
 
   if (!person) {
-    return res.json({ success: false, Task: [] });
+    return res.json({ success: false, data: [] });
   }
 
-  const newTasks = Task.map((person) => {
+  const newTasks = tasks.map((person) => {
     if (person.id === Number(id)) {
       person.name = name;
       person.details = details;
@@ -78,10 +78,10 @@ const updateTasks = async (req, res) => {
     return person;
   });
 
-  res.status(202).json({ Task: newTasks, success: true });
+  res.status(202).json({ data: newTasks, success: true });
 
   try {
-    let answer = await Task.updateOne(req.body);
+    let answer = await tasks.updateOne(req.body);
     console.log(answer);
     res.json(answer);
   } catch (err) {
@@ -92,7 +92,7 @@ const updateTasks = async (req, res) => {
 //post function for deleting tasks
 const deleteTasks = async (req, res) => {
   const { id } = req.params;
-  const person = Task.find((person) => person.id === Number(id));
+  const person = tasks.find((person) => person.id === Number(id));
 
   if (!person) {
     return res
@@ -100,14 +100,14 @@ const deleteTasks = async (req, res) => {
       .json({ success: false, msg: 'No matching tasks found' });
   }
 
-  Task = Task.filter((person) => {
+  tasks = tasks.filter((person) => {
     return person.id !== Number(id);
   });
 
-  res.status(202).json({ Task: taskSchema, success: true });
+  res.status(202).json({ data: tasks, success: true });
 
   try {
-    let answer = await Task.deleteOne({ __v: 0 });
+    let answer = await tasks.deleteOne({ __v: 0 });
     console.log(answer);
     res.json(answer);
   } catch (err) {
@@ -117,25 +117,25 @@ const deleteTasks = async (req, res) => {
 
 //route to update task completion status
 filterTasks =
-  ('/api/Task/:id/completion',
+  ('/api/tasks/:id/completion',
   (req, res) => {
-    const TaskId = parseInt(req.params.id);
+    const taskId = parseInt(req.params.id);
     const completed = req.body.completed;
 
     //find the task in your database (replace this with your database query)
-    const TaskToUpdate = Tasks.find((Task) => Task.id === TaskId);
+    const taskToUpdate = tasks.find((task) => task.id === taskId);
 
-    if (!TaskToUpdate) {
+    if (!taskToUpdate) {
       return res.status(404).json({ msg: 'Task not found' });
     }
 
     //update the task's completion status
-    TaskToUpdate.check = completed;
+    taskToUpdate.check = completed;
 
     //respond with the updated task
     res.json({
       msg: 'Task completion status updated successfully',
-      Task: TaskToUpdate,
+      task: taskToUpdate,
     });
   });
 
