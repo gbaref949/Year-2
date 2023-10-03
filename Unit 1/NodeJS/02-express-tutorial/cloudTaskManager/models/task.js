@@ -16,10 +16,6 @@ const userSchema = new mongoose.Schema({
   //type: String 
   //},
   //created a user assignment field
-  assignedTo: { 
-  type: mongoose.Schema.Types.ObjectId, 
-  ref: 'User', 
-  },
   },{ collection: 'User' }
 );
 
@@ -37,6 +33,10 @@ const taskSchema = new mongoose.Schema({
   check: { 
     type: Boolean, 
     default: false 
+  },
+  assignedTo: { 
+  type: mongoose.Schema.Types.ObjectId, 
+  ref: 'User', 
   },
 },{ collection: 'Task' }
 );
