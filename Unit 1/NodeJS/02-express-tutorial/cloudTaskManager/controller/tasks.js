@@ -1,18 +1,18 @@
 // let { tasks } = require('../data');
 const tasks = require('../models/task');
 const asyncWrapper = require('../middleware/asyncWrapper');
-const {createCustomError} = require('../errors/custom-error');
+const { createCustomError } = require('../error/custom-error.js');
 
 //get tasks and returns them
 const readTasks = async (req, res) => {
   //res.send(tasks)
   // res.json({ success: true, data: tasks });
-  try{
-    let answer = await tasks.find({})
-    console.log(answer)
-    res.json(answer)
-   }catch(err){
-    console.log(err)
+  try {
+    let answer = await tasks.find({});
+    console.log(answer);
+    res.json(answer);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -33,12 +33,12 @@ const createTasks = async (req, res) => {
   tasks.push(person);
   res.status(201).json({ success: true, data: [tasks] });
 
-  try{
-    let answer = await tasks.create(req.body)
-    console.log(answer)
-    res.json(answer)
-   }catch(err){
-    console.log(err)
+  try {
+    let answer = await tasks.create(req.body);
+    console.log(answer);
+    res.json(answer);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -65,12 +65,12 @@ const updateTasks = async (req, res) => {
 
   res.status(202).json({ data: newTasks, success: true });
 
-  try{
-    let answer = await tasks.updateOne(req.body)
-    console.log(answer)
-    res.json(answer)
-   }catch(err){
-    console.log(err)
+  try {
+    let answer = await tasks.updateOne(req.body);
+    console.log(answer);
+    res.json(answer);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -91,12 +91,12 @@ const deleteTasks = async (req, res) => {
 
   res.status(202).json({ data: tasks, success: true });
 
-  try{
-    let answer = await tasks.deleteOne({__v:0})
-    console.log(answer)
-    res.json(answer)
-   }catch(err){
-    console.log(err)
+  try {
+    let answer = await tasks.deleteOne({ __v: 0 });
+    console.log(answer);
+    res.json(answer);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -123,6 +123,8 @@ filterTasks =
       task: taskToUpdate,
     });
   });
+
+
 
 module.exports = {
   readTasks,

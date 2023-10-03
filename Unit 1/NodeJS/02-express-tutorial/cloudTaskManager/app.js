@@ -19,7 +19,6 @@ app.use(express.json());
 app.use('/api/tasks', tasks); //creating seperate routers for seperate purposes
 app.use('/login', auth);
 
-
 const initServer = async () => {
   //first thing we want it to do is connect to the server
   try {
