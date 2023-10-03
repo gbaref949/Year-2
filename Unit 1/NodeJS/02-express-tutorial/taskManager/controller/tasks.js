@@ -2,7 +2,7 @@ let { tasks } = require('../data');
 
 //get tasks and returns them
 const readTasks = (req, res) => {
-  //res.send(tasks)
+  // res.send(tasks)
   res.json({ success: true, data: tasks });
 };
 

@@ -3,46 +3,43 @@ const mongoose = require('mongoose');
 
 //defined User Schema
 const userSchema = new mongoose.Schema({
-  username: { 
+  name: { 
     type: String, 
     unique: true, 
     required: true 
   },
-  password: { 
-    type: String, 
-    required: true
-   },
   age: { 
     type: Number 
   },
-  //profile image field if needed
+  //profile image
   //profileImage: { 
   //type: String 
   //},
-});
+  //created a user assignment field
+  assignedTo: { 
+  type: mongoose.Schema.Types.ObjectId, 
+  ref: 'User', 
+  },
+  },{ collection: 'User' }
+);
 
 //defined Task Schema
 const taskSchema = new mongoose.Schema({
-  FirstName: {
+  name: {
     type: String,
     required: [true, 'Must provided a name'],
     trim: true,
     maxLength: [20, 'The name can be more than 20 characters'],
   },
-  description: { 
+  details: { 
     type: String 
   },
-  completed: { 
+  check: { 
     type: Boolean, 
     default: false 
   },
-  //created a user assignment field if needed
-  // assignedTo: { 
-  // type: mongoose.Schema.Types.ObjectId, 
-  // ref: 'User', 
-  // },
-},{ collection: 'Contacts' }
+},{ collection: 'Task' }
 );
 
 module.exports = mongoose.model('User', userSchema)
-module.exports = mongoose.model('Contacts',taskSchema);
+module.exports = mongoose.model('Task',taskSchema);
