@@ -1,15 +1,14 @@
 const { User, Task } = require('../models/task'); //import models
-
+const { user, task } = require('../data');
 //get tasks and returns them
 const getUsers = async (req, res) => {
-try {
+  try {
     const users = await User.find();
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 const createUsers = async (req, res) => {
   try {
@@ -59,7 +58,6 @@ const createTasks = async (req, res) => {
 
   res.status(201).json(newTask);
 };
-
 
 const updateTasks = async (req, res) => {
   const { id } = req.params;

@@ -2,35 +2,40 @@ const mongoose = require('mongoose');
 const { User, Task } = require('../models/task.js'); // Import models
 
 const connectDB = (url) => {
-  //Rember this is temp and needs to be replaced
   return mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 };
 
-// // Read your local data (users and tasks) from files or define them in this script
-// const usersData = ({ user } = require('../data')); // An array of user objects
-// const tasksData = ({ tasks } = require('../data')); // An array of task objects
+// Define a separate function for seeding data
+const seedData = async () => {
+  // Read your local data (users and tasks) from files or define them in this script
+  const usersData = require('../data').user; // An array of user objects
+  const tasksData = require('../data').tasks; // An array of task objects
 
-// // Upload users to MongoDB
-// User.insertMany(usersData, (err) => {
-//   if (err) {
-//     console.error('Error uploading users:', err);
-//   } else {
-//     console.log('Users uploaded successfully');
-//   }
-//   mongoose.connection.close();
-// });
+  try {
+    // Upload users to MongoDB
+    await User.insertMany(usersData);
+    console.log('Users uploaded successfully');
 
-// // Upload tasks to MongoDB
-// Task.insertMany(tasksData, (err) => {
-//   if (err) {
-//     console.error('Error uploading tasks:', err);
-//   } else {
-//     console.log('Tasks uploaded successfully');
-//   }
-//   mongoose.connection.close();
-// });
+    // Upload tasks to MongoDB
+    await Task.insertMany(tasksData);
+    console.log('Tasks uploaded successfully');
+  } catch (error) {
+    console.error('Error uploading data:', error);
+  } finally {
+    mongoose.connection.close();
+  }
+};
 
-module.exports = connectDB;
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
+
+module.exports = { connectDB, seedData};
+module.exports = mongoose.connection; 

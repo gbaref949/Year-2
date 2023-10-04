@@ -23,12 +23,22 @@
             <div class="form-row">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required autocomplete="false" placeholder="Username">
+
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required autocomplete="false" placeholder="Password">
+                
+                <small class="form-alert"></small>
             </div>
-            <button type="submit" class="block">Submit</button>
-            <p>Don't have an account? <a href="./register.html">Register Now</a></p>
+            <button type="submit" class="block">Login</button>
         </form>
-    </main>
+        <div class="result">
+            <div class="task-items"></div>
+        </div>
+    </main> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <script src="edit.js"></script>
 </body>
 </html>
