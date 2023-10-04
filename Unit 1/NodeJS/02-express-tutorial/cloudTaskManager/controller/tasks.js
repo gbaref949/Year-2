@@ -1,4 +1,4 @@
-const { User, Task } = require('./models/task.js'); //import models
+const { User, Task } = require('../models/task'); //import models
 
 //get tasks and returns them
 const getUsers = async (req, res) => {
@@ -13,11 +13,21 @@ try {
 
 const createUsers = async (req, res) => {
   try {
+    // Create a new user using the User model
     const newUser = new User(req.body);
+
+    // Save the user to the database
     await newUser.save();
+
+    // Respond with the newly created user
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    // Handle validation errors
+    if (error.code === 11000) {
+      res.status(400).json({ error: 'User with the same name already exists' });
+    } else {
+      res.status(400).json({ error: error.message });
+    }
   }
 };
 
@@ -32,91 +42,82 @@ const readTasks = async (req, res) => {
   }
 };
 
-//post function for creating tasks
-let length = tasks.length + 1;
 const createTasks = async (req, res) => {
-  const { name, details } = req.body;
+  const { name, details, assignedTo } = req.body; // Added 'assignedTo' field
+
   if (!name) {
     return res
       .status(400)
-      .json({ data: [], success: false, msg: 'Please enter your name' });
-  }
-  if (!details) {
-    return res.status(400).json({ data: [], success: false });
+      .json({ data: [], success: false, msg: 'Please enter the task name' });
   }
 
-  let person = { id: length++, name: name, details: details };
-  tasks.push(person);
-  res.status(201).json({ success: true, data: [tasks] });
+  // Create a new task using the Task model
+  const newTask = new Task({ name, details, assignedTo });
+
+  // Save the task to the database
+  await newTask.save();
+
+  res.status(201).json(newTask);
+};
+
+
+const updateTasks = async (req, res) => {
+  const { id } = req.params;
+  const { check, name, details } = req.body;
 
   try {
-    const newTask = new Task(req.body);
-    await newTask.save();
-    res.status(201).json(newTask);
+    // Find the task by ID
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ success: false, msg: 'Task not found' });
+    }
+
+    // Update task properties
+    task.check = check;
+    task.name = name;
+    task.details = details;
+
+    // Save the updated task
+    await task.save();
+
+    res.status(202).json({ data: task, success: true });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const updateTasks = async (req, res) => {
+const deleteUsers = async (req, res) => {
   const { id } = req.params;
-  const { check } = req.params;
-  const { name } = req.body;
-  const { details } = req.body;
-  const person = tasks.find((person) => person.id === Number(id));
 
-  if (!person) {
-    return res.json({ success: false, data: [] });
-  }
+  try {
+    // Find the user by ID
+    const user = await User.findById(id);
 
-  const newTasks = tasks.map((person) => {
-    if (person.id === Number(id)) {
-      person.name = name;
-      person.details = details;
-      person.check = check;
+    if (!user) {
+      return res.status(404).json({ success: false, msg: 'User not found' });
     }
-    return person;
-  });
 
-  res.status(202).json({ data: newTasks, success: true });
+    // Find all tasks assigned to this user
+    const tasks = await Task.find({ assignedTo: user._id });
 
-  try {
-    let answer = await tasks.updateOne(req.body);
-    console.log(answer);
-    res.json(answer);
-  } catch (err) {
-    console.log(err);
-  }
-};
+    // Reassign tasks to unassigned
+    await Task.updateMany(
+      { assignedTo: user._id },
+      { $set: { assignedTo: null } }
+    );
 
-//post function for deleting tasks
-const deleteTasks = async (req, res) => {
-  const { id } = req.params;
-  const person = tasks.find((person) => person.id === Number(id));
+    // Delete the user
+    await user.remove();
 
-  if (!person) {
-    return res
-      .status(404)
-      .json({ success: false, msg: 'No matching tasks found' });
-  }
-
-  tasks = tasks.filter((person) => {
-    return person.id !== Number(id);
-  });
-
-  res.status(202).json({ data: tasks, success: true });
-
-  try {
-    let answer = await tasks.deleteOne({ __v: 0 });
-    console.log(answer);
-    res.json(answer);
-  } catch (err) {
-    console.log(err);
+    res.status(202).json({ success: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
 //route to update task completion status
-filterTasks =
+const filterTasks =
   ('/api/tasks/:id/completion',
   (req, res) => {
     const taskId = parseInt(req.params.id);
@@ -145,6 +146,6 @@ module.exports = {
   readTasks,
   createTasks,
   updateTasks,
-  deleteTasks,
+  deleteUsers,
   filterTasks,
 };

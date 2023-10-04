@@ -16,16 +16,17 @@ app.use(express.urlencoded({ extended: false }));
 //parse json data
 app.use(express.json());
 //routes/router
-app.use('/api/tasks', tasks); //creating seperate routers for seperate purposes
+app.use('/api/tasks', tasks);//creating seperate routers for seperate purposes
 app.use('/login', auth);
 
 const initServer = async () => {
   //first thing we want it to do is connect to the server
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(5000, () => {
+    const port = process.env.PORT || 5000;
+    app.listen(port, () => {
       //server listen
-      console.log('Server is listening on Port 5000');
+      console.log(`Server is listening on Port ${port}`);
     });
   } catch (error) {
     console.log(error);
