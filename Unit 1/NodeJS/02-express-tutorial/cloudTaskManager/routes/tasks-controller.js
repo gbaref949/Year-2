@@ -11,12 +11,12 @@ const {
   filterTasks,
 } = require('../controller/tasks');
 
-router.get('/User', getUsers);
-router.post('/User', createUsers);
-router.get('/', readTasks);
-router.post('/', createTasks);
-router.put('/:id', updateTasks);
-router.put('/:id/completion', filterTasks);
-router.delete('/:id', deleteUsers);
+router.get('/users', getUsers);
+router.post('/users', createUsers);
+router.get('/tasks', readTasks);
+router.post('/tasks', createTasks);
+router.put('/tasks/:id', updateTasks);
+router.put('/tasks/:id/completion', filterTasks);
+router.delete('/users/:id', deleteUsers);
 
 module.exports = router;

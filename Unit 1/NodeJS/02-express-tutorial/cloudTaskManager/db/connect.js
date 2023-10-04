@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const { User, Task } = require('../models/task.js'); // Import models
 
+
+
 const connectDB = (url) => {
   return mongoose.connect(url, {});
 };
-// useNewUrlParser: true,
+// // useNewUrlParser: true,
 // useUnifiedTopology: true,
 
 // // Define a separate function for seeding data
