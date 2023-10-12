@@ -1,6 +1,23 @@
 const express = require('express');
+const session = require('express-session');
+const flash = require('connect-flash');
+const morgan = require('morgan');
+const passport = require('passport');
+require("./config/passport")(passport);
+require("dotenv").config();
+const router = express.Router();
 const app = express();
+const mongoose = require('mongoose');
+const expressEJSLayout = require('express-ejs-layout');
 const port = 5000
+
+try{
+   mongoose.connect(process.env.MONGO_URI, {useNewURLParser:true, useUnifiedTopology:true})
+   .then(()=> {console.log(`connect on port ${port}: ${process.env.PORT}`)})
+   .catch((err)=>{console.log(err)})
+}catch(error){
+    console.log(error)
+}
 
 //use this for help https://www.npmjs.com/package/ejs
 
@@ -9,7 +26,7 @@ app.set('view engine', 'ejs');//creates a rule that the view engine will be ejs
 
 const user ={//combines data with templates
     firstName: 'Tim',
-    lastName: 'Smith',
+    lastName: 'Brown',
 }
 
 app.get('/', (req, res) => {
