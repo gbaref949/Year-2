@@ -9,6 +9,8 @@ const router = express.Router();
 const app = express();
 const mongoose = require('mongoose');
 const expressEJSLayout = require('express-ejs-layout');
+require('./db/connect')
+const connectDB = require('./db/connect');
 const port = 5000
 
 try{

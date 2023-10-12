@@ -25,14 +25,16 @@ module.exports = function (passport){
         .catch((err)=>{
             console.log(err)
         })
+    }))
 
     //These are to handle the login sessions
     passport.serializeUser(function(user,done){
         done(null, user.id);
     });
-    passport.deserializeUser(function(id,done){
-        done(user,err);
-    });
     
-    }))
+    passport.deserializeUser(function(id,done){
+        User.findById(id).then((err,user)=>{
+            done(user,err);
+        })
+    });
 }
