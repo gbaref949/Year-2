@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 5000
 
+//use this for help https://www.npmjs.com/package/ejs
+
 app.set('view engine', 'ejs');//creates a rule that the view engine will be ejs
 //since we are using ejs we need views folder to view anything
 
