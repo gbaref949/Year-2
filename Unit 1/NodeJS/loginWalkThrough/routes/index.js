@@ -4,11 +4,11 @@ const ensureAuthenticated = require('../config/auth')
 
 //home page
 router.get('/',(req, res) => {
-    res.render('welcome')
+    res.render('pages/welcome')
 })
 //register page
 router.get('/register',(req, res) => {
-    res.render('register')
+    res.render('pages/register')
 })
 //dashboard-homepage redirect
 router.get('/dashboard',(req, res) => {
