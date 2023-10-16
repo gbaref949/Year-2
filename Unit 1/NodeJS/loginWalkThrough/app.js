@@ -1,3 +1,4 @@
+//required var and dev tools
 const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -8,34 +9,48 @@ require("dotenv").config();
 const router = express.Router();
 const app = express();
 const mongoose = require('mongoose');
-const expressEJSLayout = require('express-ejs-layout');
-require('./db/connect')
-const connectDB = require('./db/connect');
-const port = 5000
+const expressEJSLayout = require('express-ejs-layouts');
+// require('./db/connect')
+// const connectDB = require('./db/connect');
 
 try{
-   mongoose.connect(process.env.MONGO_URI, {useNewURLParser:true, useUnifiedTopology:true})
-   .then(()=> {console.log(`connect on port ${port}: ${process.env.PORT}`)})
+   mongoose.connect(process.env.MONGO_URI, {useNewURLParser:true, useUnifiedTopology:true})//directly connects
+   .then(()=> {console.log(`connect on port: ${process.env.PORT}`)})
    .catch((err)=>{console.log(err)})
 }catch(error){
-    console.log(error)
+    // console.log(error)
 }
 
-//use this for help https://www.npmjs.com/package/ejs
+//development tools
+app.use(morgan('tiny'))
 
-app.set('view engine', 'ejs');//creates a rule that the view engine will be ejs
-//since we are using ejs we need views folder to view anything
+//EJS
+app.set('view engine', 'ejs')//automatically loads to the views folder
+app.use(expressEJSLayout)
 
-const user ={//combines data with templates
-    firstName: 'Tim',
-    lastName: 'Brown',
-}
+//body-parser(format)
+app.use(express.urlencoded({ extended: false }))
 
-app.get('/', (req, res) => {
-    res.render('pages/index', {user:user});//routes at your views folder
-    //when passing through data through the render
+//express session
+app.use(session({//hash with a specail id
+    secret: process.env.SESSION_SECRET,//masterkey access any session
+    resave: true,
+    saveUnitialized: true//undoes the hash so they can view session
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+//use flash messaging --express
+app.use(flash())
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash('sucess message');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next()
 })
 
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
-})
+//routes
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+
+app.listen(process.env.PORT || 5000);//set to whatever port set in process.env

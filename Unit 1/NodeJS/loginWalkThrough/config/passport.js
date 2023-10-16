@@ -1,6 +1,8 @@
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const User = require('../models/user')
+
+//used for authrorization like an oath for google auth and verifies who you are
 
 module.exports = function (passport){
     passport.use(new LocalStrategy({usernameField:'email', passwordField:'password', passReqToCallback: false, session:true}, (email,password,done)=>{
@@ -30,11 +32,13 @@ module.exports = function (passport){
     //These are to handle the login sessions
     passport.serializeUser(function(user,done){
         done(null, user.id);
-    });
+    });//createss new session 
     
+    //using passport creates a deserialize user and saves the request
+    //verify if you can log in or not
     passport.deserializeUser(function(id,done){
         User.findById(id).then((err,user)=>{
             done(user,err);
         })
-    });
+    });//find the user and save the session to who you are
 }
