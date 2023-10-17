@@ -33,6 +33,7 @@ router.post('/register', (req, res)=>{
     }
 
     if(errors.length > 0){
+        console.log(errors)
         res.render('register', {//if any errors then render reigster page with errors and the infromation they gave 
             //you can refill the form or make a confirmation pages
             errors: errors,
@@ -45,12 +46,14 @@ router.post('/register', (req, res)=>{
         User.findOne({email: email}).then((err, user)=>{
             if(user){
                 errors.push({msg: "This email has aleady been registered"})//renders error with all the infromation
-                res.render('register', {
+                console.log(errors)
+                res.render('pages/register', {
                     errors: errors,
                     first_name: first_name,
                     last_name: last_name,
                     email: email,
-                    password: password
+                    password: password,
+                    password2: password2
                 })//makes sure that the account abou to be wrote doesn't overwrite or have an account
 
             } else {//if not then creates the new user

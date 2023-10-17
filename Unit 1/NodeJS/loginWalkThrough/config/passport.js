@@ -37,8 +37,10 @@ module.exports = function (passport){
     //using passport creates a deserialize user and saves the request
     //verify if you can log in or not
     passport.deserializeUser(function(id,done){
-        User.findById(id).then((err,user)=>{
-            done(user,err);
-        })
+        User.findById(id).then((user,err)=>{
+            console.log(err)
+            if(err) return done (err);
+            done(err, user);
+        }).catch((err)=>{console.log(err)})
     });//find the user and save the session to who you are
 }
